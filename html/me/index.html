@@ -28,6 +28,19 @@
                 $(".container > header > h1 > span").click(function () {
                     history.go(-1);
                 });
+                // 兼容手机
+                $(".cs-text").on("touchstart", touchStart);
+                $(".cs-text").on("touchstart", touchEnd);
+                function touchStart(event) {
+                    $(".cs-text-cut:first-child").addClass("cs-text hover cs-text-cut first-child");
+                    $(".cs-text-cut:last-child").addClass("cs-text hover cs-text-cut last-child");
+                    $(".cs-text-mid").addClass("cs-text hover cs-text-mid");
+                }
+                function touchEnd(event) {
+                    $(".cs-text-cut:first-child").removeClass("cs-text hover cs-text-cut first-child");
+                    $(".cs-text-cut:last-child").removeClass("cs-text hover cs-text-cut last-child");
+                    $(".cs-text-mid").removeClass("cs-text hover cs-text-mid");
+                }
             });
         </script>
     </head>

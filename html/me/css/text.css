@@ -1,5 +1,6 @@
 .cs-text {
-	width: 645px;
+	/*width: 645px;*/
+	width: 80%;
 	margin: 120px auto 30px;
 	cursor: default;
 }
