@@ -1,0 +1,471 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>小小聪明屋 - 开心每一天</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fanxiaocong,"> 
+    <meta name="description" content="
+Vim is a highly configurable text editor for efficiently creating and changing any kind of text.VI,"> 
+    <meta name="author" content="fanxiaocong"> 
+    <link rel="alternative" href="atom.xml" title="小小聪明屋" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+</head>
+
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">Mac 下 VIM 的简单使用</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">Mac 下 VIM 的简单使用</h1>
+        <div class="stuff">
+            <span>八月 30, 2018</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Mac/">Mac</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/VI/">VI</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/VIM/">VIM</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <blockquote>
+<p>Vim is a highly configurable text editor for efficiently creating and changing any kind of text.<br><strong><em>VIM</em></strong> - <em><a href="https://www.vim.org" target="_blank" rel="noopener">https://www.vim.org</a></em></p>
+</blockquote>
+<h3 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h3><p>vim 是一种高效的文本编辑器，而且Mac电脑自带此编辑器，使用起来非常方便。</p>
+<img src="/2018/08/30/Mac-下-VIM-的简单使用/vim01.png" title="vim 键盘图">
+<p><br></p>
+<blockquote>
+<p><em style="color:darkgray;font-size:14px;"> 注：以下命令的输入都是指在切换到英文输入法的前提下实现的。</em></p>
+</blockquote>
+<h3 id="初步体验"><a href="#初步体验" class="headerlink" title="初步体验"></a>初步体验</h3><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 创建文件（终端）</span><br><span class="line"><span class="keyword">vi</span> one.txt</span><br><span class="line"></span><br><span class="line"># 输入 i 进行内容编辑</span><br><span class="line">i</span><br><span class="line"></span><br><span class="line"># 编辑完后，按下键盘左上角的 Esc 键，结束编辑</span><br><span class="line">Esc</span><br><span class="line"></span><br><span class="line"># 保存并退出</span><br><span class="line">:<span class="keyword">wq</span></span><br></pre></td></tr></table></figure>
+<h3 id="工作模式"><a href="#工作模式" class="headerlink" title="工作模式"></a>工作模式</h3><p>vim 共分为三种模式，命令模式（Command mode），输入模式（Insert mode）和底线命令模式（Last line mode）。</p>
+<img src="/2018/08/30/Mac-下-VIM-的简单使用/vim02.png" title="vim 工作模式">
+<h4 id="命令模式-Command-Mode"><a href="#命令模式-Command-Mode" class="headerlink" title="命令模式 Command Mode"></a>命令模式 <em>Command Mode</em></h4><p>用户刚刚启动 vi/vim，便进入了命令模式。<br>此模式下从键盘输入的字符会被 vim 识别为命令。</p>
+<h4 id="输入模式-Insert-Mode"><a href="#输入模式-Insert-Mode" class="headerlink" title="输入模式 Insert Mode"></a>输入模式 <em>Insert Mode</em></h4><p>在命令模式下按下 i 或 I（o、O、a、A） 就进入了输入模式。<br>在此模式下用户从键盘输入的字符会被记录在文本中，用户可以在此模式下进行文本的输入与编辑。</p>
+<h4 id="底线命令模式-Last-Line-Mode"><a href="#底线命令模式-Last-Line-Mode" class="headerlink" title="底线命令模式 Last Line Mode"></a>底线命令模式 <em>Last Line Mode</em></h4><p>在命令模式下按下 :（英文冒号）就进入底线命令模式。<br>在此模式下用户可以输入单个或多个字符的命令来进行对文档的编辑。</p>
+<h4 id="模式切换"><a href="#模式切换" class="headerlink" title="模式切换"></a>模式切换</h4><ul>
+<li>命令模式切换到输入模式</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">输入字符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">i</td>
+<td>从目前光标所在处开始插入</td>
+</tr>
+<tr>
+<td style="text-align:center">I</td>
+<td>从目前光标所在行的第一个非空格符处开始插入</td>
+</tr>
+<tr>
+<td style="text-align:center">a</td>
+<td>从目前光标所在的下一个字符处开始插入</td>
+</tr>
+<tr>
+<td style="text-align:center">A</td>
+<td>目前光标所在行的最后一个字符处开始插入</td>
+</tr>
+<tr>
+<td style="text-align:center">o</td>
+<td>目前光标所在行的下一行插入新的一行</td>
+</tr>
+<tr>
+<td style="text-align:center">O</td>
+<td>目前光标所在行的上一行插入新的一行</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>输入模式切换到命令模式</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">按下键盘左上角的 Esc 键</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>命令模式切换到底线命令模式</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">输入英文的冒号（ : ）</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>底线命令模式切换到命令模式</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">按下键盘左上角的 Esc 键，或者 回车键（Enter）</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="命令介绍"><a href="#命令介绍" class="headerlink" title="命令介绍"></a>命令介绍</h3><h4 id="光标移动"><a href="#光标移动" class="headerlink" title="光标移动"></a>光标移动</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">命令模式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">h 或 向左箭头键(←)</td>
+<td>光标向左移动一个字符<br> <em style="color:darkgray;font-size:12px;">nh 光标向左移动 n 个字符，如：10h 表示光标向左移动 10 个字符</em></td>
+</tr>
+<tr>
+<td style="text-align:center">j 或 向下箭头键(↓)</td>
+<td>光标向下移动一个字符<br> <em style="color:darkgray;font-size:12px;">nj 光标向下移动 n 个字符，如：10j 表示光标向下移动 10 个字符</em></td>
+</tr>
+<tr>
+<td style="text-align:center">k 或 向上箭头键(↑)</td>
+<td>光标向上移动一个字符<br> <em style="color:darkgray;font-size:12px;">nk 光标向上移动 n 个字符，如：10k 表示光标向上移动 10 个字符</em></td>
+</tr>
+<tr>
+<td style="text-align:center">l 或 向右箭头键(→)</td>
+<td>光标向右移动一个字符<br> <em style="color:darkgray;font-size:12px;">nl 光标向右移动 n 个字符，如：10l 表示光标向右移动 10 个字符</em></td>
+</tr>
+<tr>
+<td style="text-align:center">【Ctrl】+【f】</td>
+<td>屏幕向下移动一页</td>
+</tr>
+<tr>
+<td style="text-align:center">【Ctrl】+【b】</td>
+<td>屏幕向上移动一页</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td>移动到光标所在行的第一个字符处</td>
+</tr>
+<tr>
+<td style="text-align:center">$</td>
+<td>移动到光标所在行的最后一个字符处</td>
+</tr>
+<tr>
+<td style="text-align:center">{</td>
+<td>移动到光标所在的那一段的段头处</td>
+</tr>
+<tr>
+<td style="text-align:center">}</td>
+<td>移动到光标所在的那一段的段尾处</td>
+</tr>
+<tr>
+<td style="text-align:center">G</td>
+<td>移动到文档的最后一行</td>
+</tr>
+<tr>
+<td style="text-align:center">gg</td>
+<td>移动到文档的第一行</td>
+</tr>
+<tr>
+<td style="text-align:center">数字 +【Enter】</td>
+<td>光标向下移动若干行<br> <em style="color:darkgray;font-size:12px;">如：10【Enter】 表示光标向下移动 10 行</em></td>
+</tr>
+<tr>
+<td style="text-align:center">:数字 +【Enter】</td>
+<td>光标移动到指定行<br> <em style="color:darkgray;font-size:12px;">如：:10【Enter】 表示光标移动到文档的第 10 行 </em></td>
+</tr>
+<tr>
+<td style="text-align:center">w</td>
+<td>移动到光标所在位置的下一个单词的开头</td>
+</tr>
+<tr>
+<td style="text-align:center">e</td>
+<td>移动到光标所在位置的下一个单词的结尾</td>
+</tr>
+<tr>
+<td style="text-align:center">b</td>
+<td>移动到光标所在位置的前一个单词的开头</td>
+</tr>
+<tr>
+<td style="text-align:center">ge</td>
+<td>移动到光标所在位置的前一个单词的结尾</td>
+</tr>
+<tr>
+<td style="text-align:center">#</td>
+<td>移动到上一个与当前光标所在单词相同单词的前面</td>
+</tr>
+<tr>
+<td style="text-align:center">*</td>
+<td>移动到下一个与当前光标所在单词相同单词的前面</td>
+</tr>
+<tr>
+<td style="text-align:center">%</td>
+<td>匹配括号移动，包括 (、[、{<br> <em style="color:darkgray;font-size:12px;">注：需要将光标先移动到括号上</em></td>
+</tr>
+<tr>
+<td style="text-align:center">【f】+ 字符</td>
+<td>移动光标到同行的下一个指定字符处<br> <em style="color:darkgray;font-size:12px;">如：fc 表示将光标向后移动到距离最近的那个 c 字符处（只在本行移动）</em></td>
+</tr>
+<tr>
+<td style="text-align:center">【F】+ 字符</td>
+<td>移动光标到同行的上一个指定字符处<br> <em style="color:darkgray;font-size:12px;">如：Fc 表示将光标向前移动到距离最近的那个 c 字符处（只在本行移动）</em></td>
+</tr>
+<tr>
+<td style="text-align:center">【t】+ 字符</td>
+<td>移动光标到同行的下一个指定字符的前一个字符处<br> <em style="color:darkgray;font-size:12px;">如：tc 表示将光标向后移动到距离最近的 c 字符的前一个字符处（只在本行移动）<br>&nbsp;&nbsp;&nbsp;&nbsp; dtc 表示从光标所在位置向后删除，直到遇到 c 字符（不删除 c 字符）</em></td>
+</tr>
+<tr>
+<td style="text-align:center">【/】+ 关键字 + 【Enter】</td>
+<td>从光标所在的位置向下寻找文档中出现的关键字<br> <em style="color:darkgray;font-size:12px;">如：/word 表示在文档中搜索 word 这个单词 </em></td>
+</tr>
+<tr>
+<td style="text-align:center">:n1,n2s/word1/word2/g</td>
+<td>将第 n1 与 n2 行之间所有名字为 word1 的字符串替换为 word2<br> <em style="color:darkgray;font-size:12px;">n1，n2 为数字。<br> g 表示全局。</em></td>
+</tr>
+<tr>
+<td style="text-align:center">:n1,$s/word1/word2/g</td>
+<td>从第 n1 行开始将文档中所有名字为 word1 的字符串替换为 word2<br> <em style="color:darkgray;font-size:12px;    ">n1 为数字。<br> g 表示全局。</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="文档编辑"><a href="#文档编辑" class="headerlink" title="文档编辑"></a>文档编辑</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">命令模式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">x</td>
+<td>向后删除一个字符<br> <em style="color:darkgray;font-size:12px;">nx 光标向后删除 n 个字符，如：4x 表示从光标位置开始向后删除 4 个字符</em></td>
+</tr>
+<tr>
+<td style="text-align:center">X</td>
+<td>向前删除一个字符<br> <em style="color:darkgray;font-size:12px;">nX 光标向前删除 N 个字符，如：4X 表示从光标位置开始向前删除 4 个字符</em></td>
+</tr>
+<tr>
+<td style="text-align:center">r</td>
+<td>替换光标所在位置的那个字符，只会替换一次<br> <em style="color:darkgray;font-size:12px;">当输入 r 命令后，此时 vim 进入单次替换模式，光标所在位置的那个字符会被替换为以后从键盘上输入的某个字符，如：当输入 r 命令后，我们又从键盘上输入了一个字符 A，那么光标所在位置的那个字符会被替换为 A，此时替换结束</em></td>
+</tr>
+<tr>
+<td style="text-align:center">R</td>
+<td>从光标所在位置处开始进行替换，直到按下【ESC】键结束替换<br> <em style="color:darkgray;font-size:12px;">当输入 R 命令后， 此时 vim 进入连续替换模式，从光标所在位置处开始，后面的字符会被依次进行替换，直到按下【ESC】键结束替换，如：当输入 R 命令后，我们又从键盘上输入了 ABCD，那么光标所在位置后面的4个字符会被替换为ABCD，此时替换模式没有结束，会一直进行下去，直到按下【ESC】键结束</em></td>
+</tr>
+<tr>
+<td style="text-align:center">dd</td>
+<td>删除光标所在的那一行<br> <em style="color:darkgray;font-size:12px;">ndd 从光标所在的那一行开始删除，从上至下删除 n 行，如：3dd 表示从光标所在的那一行开始向下删除，总共删除3行（包括光标所在的那行）</em></td>
+</tr>
+<tr>
+<td style="text-align:center">yy</td>
+<td>复制光标所在的那一行<br> <em style="color:darkgray;font-size:12px;">nyy 从光标所在的那一行开始复制，从上至下复制 n 行，如：3yy 表示从光标所在的那一行开始向下复制，总共复制3行（包括光标所在的那行）</em></td>
+</tr>
+<tr>
+<td style="text-align:center">p</td>
+<td>将已复制的数据粘贴到光标的后面<br> <em style="color:darkgray;font-size:12px;">npp 已复制的数据粘贴 n 次</em></td>
+</tr>
+<tr>
+<td style="text-align:center">u</td>
+<td>复原前一个动作(撤销)</td>
+</tr>
+<tr>
+<td style="text-align:center">数字 + 【i】+ 字符</td>
+<td>重复输入多个字符<br> <em style="color:darkgray;font-size:12px;">如：10iA 表示输入10个 A</em></td>
+</tr>
+<tr>
+<td style="text-align:center">~</td>
+<td>改变光标所在字符的大小写</td>
+</tr>
+<tr>
+<td style="text-align:center">&lt;范围1&gt;gu(U)&lt;范围2&gt;</td>
+<td>将范围1到范围2之前的所有字母转换成小写或者大写。<br> <em style="color:darkgray;font-size:12px;">如：ggguG 表示把开头到最后一行之间的字母全部变为小写</em></td>
+</tr>
+<tr>
+<td style="text-align:center">【Ctrl】+ 【n】</td>
+<td>在输入模式下，你可以输入一个词的开头，然后按 <ctrl +="" n="">，自动补齐功能就出现了</ctrl></td>
+</tr>
+<tr>
+<td style="text-align:center">:set nu</td>
+<td>显示行号。设定之后，会在每一行的前面显示该行的行号</td>
+</tr>
+<tr>
+<td style="text-align:center">:set nonu</td>
+<td>取消行号</td>
+</tr>
+<tr>
+<td style="text-align:center">&lt;&lt;</td>
+<td>向左缩进一个 Tab 宽度</td>
+</tr>
+<tr>
+<td style="text-align:center">&gt;&gt;</td>
+<td>向右缩进一个 Tab 宽度</td>
+</tr>
+<tr>
+<td style="text-align:center">:ce + 【Enter】</td>
+<td>本行文字居中</td>
+</tr>
+<tr>
+<td style="text-align:center">:le + 【Enter】</td>
+<td>本行文字靠左</td>
+</tr>
+<tr>
+<td style="text-align:center">:ri + 【Enter】</td>
+<td>本行文字靠右</td>
+</tr>
+<tr>
+<td style="text-align:center">:e fileName</td>
+<td>添加一个文件</td>
+</tr>
+<tr>
+<td style="text-align:center">:r fileName</td>
+<td>插入文件到指定行</td>
+</tr>
+<tr>
+<td style="text-align:center">:n</td>
+<td>切换到下一个文件</td>
+</tr>
+<tr>
+<td style="text-align:center">:N</td>
+<td>切换到上一个文件</td>
+</tr>
+<tr>
+<td style="text-align:center">:buffers</td>
+<td>显示文件列表</td>
+</tr>
+<tr>
+<td style="text-align:center">:buffer fileName</td>
+<td>切换到指定的文件</td>
+</tr>
+<tr>
+<td style="text-align:center">:w</td>
+<td>将编辑的数据写入硬盘档案中</td>
+</tr>
+<tr>
+<td style="text-align:center">:w!</td>
+<td>强制将编辑的数据写入硬盘档案中</td>
+</tr>
+<tr>
+<td style="text-align:center">:q</td>
+<td>退出关闭文档不存储</td>
+</tr>
+<tr>
+<td style="text-align:center">:q!</td>
+<td>强制退出关闭文档不存储</td>
+</tr>
+<tr>
+<td style="text-align:center">:wq</td>
+<td>存储后关闭文档</td>
+</tr>
+<tr>
+<td style="text-align:center">:wq!</td>
+<td>强制存储后关闭文档</td>
+</tr>
+</tbody>
+</table>
+<h4 id="其它补充"><a href="#其它补充" class="headerlink" title="其它补充"></a>其它补充</h4><p>区域选择<br><code>&lt;action&gt;a&lt;object&gt; 或 &lt;action&gt;a&lt;object&gt;</code></p>
+<p><span style="color:#333;font-size:13px;">action：命令，如：d（删除）、y（拷贝）、v（可视模式选择）</span><br><span style="color:#333;font-size:13px;">object：操作对象，如：w（一个单词）、s（一个句子）、p（一个段落）、某个特定的字符（,).）</span><br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 假如你有一个字符串(<span class="keyword">map</span>(+)(<span class="string">"foo"</span>)) 而光标在第一个 <span class="keyword">o</span> 的位置</span><br><span class="line"></span><br><span class="line"># 光标会选择 foo </span><br><span class="line"><span class="keyword">vi</span><span class="comment">"</span></span><br><span class="line"></span><br><span class="line"># 光标会选择 <span class="string">"foo"</span></span><br><span class="line">va<span class="comment">"</span></span><br><span class="line"></span><br><span class="line"># 光标会选择 <span class="string">"foo"</span></span><br><span class="line"><span class="keyword">vi</span>)</span><br><span class="line"></span><br><span class="line"># 光标会选择 (<span class="string">"foo"</span>)</span><br><span class="line">va)</span><br><span class="line"></span><br><span class="line"># 光标会选择 <span class="keyword">map</span>(+)(<span class="string">"foo"</span>)</span><br><span class="line">v2i)</span><br><span class="line"></span><br><span class="line"># 光标会选择 (<span class="keyword">map</span>(+)(<span class="string">"foo"</span>))</span><br><span class="line">v2a)</span><br></pre></td></tr></table></figure></p>
+<p>块操作<br><code>【Ctrl】+ 【v】</code><br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># <span class="number">0</span>&lt;Ctrl + v&gt;jI---<span class="symbol">&lt;ESC&gt;</span></span><br><span class="line"></span><br><span class="line"># 移动到行头</span><br><span class="line"><span class="number">0</span></span><br><span class="line"></span><br><span class="line"># 开始块操作</span><br><span class="line">&lt;Ctrl + v&gt;</span><br><span class="line"></span><br><span class="line"># 向下移动</span><br><span class="line"><span class="keyword">j</span></span><br><span class="line"></span><br><span class="line"># 插入 --- 使每一行生效</span><br><span class="line">I---<span class="symbol">&lt;ESC&gt;</span></span><br></pre></td></tr></table></figure></p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='/mp3/bg-music.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#简单介绍"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初步体验"><span class="toc-number">2.</span> <span class="toc-text">初步体验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#工作模式"><span class="toc-number">3.</span> <span class="toc-text">工作模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#命令模式-Command-Mode"><span class="toc-number">3.1.</span> <span class="toc-text">命令模式 Command Mode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#输入模式-Insert-Mode"><span class="toc-number">3.2.</span> <span class="toc-text">输入模式 Insert Mode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#底线命令模式-Last-Line-Mode"><span class="toc-number">3.3.</span> <span class="toc-text">底线命令模式 Last Line Mode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式切换"><span class="toc-number">3.4.</span> <span class="toc-text">模式切换</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命令介绍"><span class="toc-number">4.</span> <span class="toc-text">命令介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#光标移动"><span class="toc-number">4.1.</span> <span class="toc-text">光标移动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#文档编辑"><span class="toc-number">4.2.</span> <span class="toc-text">文档编辑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其它补充"><span class="toc-number">4.3.</span> <span class="toc-text">其它补充</span></a></li></ol></li></ol>
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
