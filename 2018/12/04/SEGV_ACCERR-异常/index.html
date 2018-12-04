@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>小小聪明屋 - 开心每一天</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fanxiaocong,"> 
+    <meta name="description" content="异常描述今天在测试开发的app时，遇到一个很奇怪的问题：项目在模拟器和真机调适的情况下运行是没有任何问题，但是如果导出测试包来进行安装，在iOS9及之前的手机就出现各种闪退。由于是导出的测试包来进行,"> 
+    <meta name="author" content="fanxiaocong"> 
+    <link rel="alternative" href="atom.xml" title="小小聪明屋" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+</head>
+
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">SEGV_ACCERR 异常崩溃</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">SEGV_ACCERR 异常崩溃</h1>
+        <div class="stuff">
+            <span>十二月 04, 2018</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/SEGV-ACCERR/">SEGV_ACCERR</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/SIGSEGV/">SIGSEGV</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/iOS/">iOS</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h3 id="异常描述"><a href="#异常描述" class="headerlink" title="异常描述"></a>异常描述</h3><p>今天在测试开发的app时，遇到一个很奇怪的问题：项目在模拟器和真机调适的情况下运行是没有任何问题，但是如果导出测试包来进行安装，在iOS9及之前的手机就出现各种闪退。由于是导出的测试包来进行的安装，所以不好跟踪异常信息，后面集成了一个第三方的日志SDK（Bugly）来跟踪日志，但是报错的信息也不是很清晰，下面给出错误日志信息：<br>    <img src="/2018/12/04/SEGV_ACCERR-异常/error01.png"><br>    <img src="/2018/12/04/SEGV_ACCERR-异常/error02.png"></p>
+<h3 id="异常原因"><a href="#异常原因" class="headerlink" title="异常原因"></a>异常原因</h3><p>基于这个问题，我在网上找了很多资料，最后在 <a href="https://stackoverflow.com/questions/42050549/app-downloaded-from-appstore-crash-in-9-3-lower-version-devices" target="_blank" rel="noopener">stackoverflow</a> 找到解决方案。<br>当你项目的资源文件中含有16位图或者图片显示模式γ值为<code>P3</code>，在<code>iOS 9.3</code>以下的设备中会出现这个问题。如果你的app需要支持广色域显示的话，那你必须得把target设置成<code>iOS 9.3+</code>，相反，如果你的app不需要支持广色域且你想兼容<code>iOS 9.3</code>之前的项目，你就得把所有的16位的或者显示模式为<code>P3</code>图片全都替换成8位模式的SRGB颜色的图片。<br>说白了就是一名话：项目中的部分图片有问题。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>前面也说了：是图片的问题导致项目在<code>iOS 9.3</code>以下的系统出现闪退现象。那么解决方案有两种：</p>
+<ul>
+<li>修改app的兼容版本号，最低支持<code>iOS 9.3</code></li>
+<li>找到项目中有问题的图片，移除它们，并让UI重新切图</li>
+</ul>
+<p>显然第一种方案不可取，那么我们现在来说下第二种方案的具体步骤。</p>
+<ol>
+<li><span style="font-size:16px;">导出项目的<code>ipa</code>文件</span></li>
+<li><span style="font-size:16px;">将<code>ipa</code>文件的后缀名改为<code>zip</code></span><br> 我们导出的安装包是以<code>.ipa</code>结尾的，现在需要将<code>.ipa</code>改为<code>.zip</code>。</li>
+<li><span style="font-size:16px;">解压该<code>zip</code>文件</span><br> 将刚刚重命名的<code>zip</code>文件解压，会在当前目录生成一个<code>Payload</code>的文件夹，里面有一个<code>.app</code>结尾的文件。</li>
+<li><p><span style="font-size:16px;">进入到<code>.app</code>结尾中文件中</span><br> 有两种方法进入到<code>.app</code>文件中</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、鼠标右键，显示包内容</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>、打开终端，使用终端进入</span><br><span class="line"><span class="keyword">cd</span> XXX/Payload/XXX.app</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><span style="font-size:16px;">找到<code>Assets.car</code>文件</span><br> 当我们进入到<code>.app</code>文件里面的后，里面有一个<code>Assets.car</code>的文件，这个文件就是我们需要处理的文件，这里我们需要借助<code>assetutil</code>命令将<code>Assets.car</code>的内容重定向到某个普通文件中，方便我们查找有问题的图片。这里我们将内容重定向到桌面的一个<code>.txt</code>文件中。</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 将 Assets.car 文件里面的内容重定向到桌面的 XXX.txt 文件中</span><br><span class="line">sudo xcrun --sdk iphoneos assetutil --info Assets.car &gt; ~/Desktop/XXX.txt</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><span style="font-size:16px;">打开<code>XXX.txt</code>文件，找到文件中有问题的图片名称</span><br> 打开刚刚我们重定向的那个<code>XXX.txt</code>的文件，然后搜索<code>P3</code>关键字，找到这一项中<code>Name</code>字段所对应的值，这个值就是我们项目中存在问题的图片名称，我们可以记录下这个图片名称，然后在我们的项目中删除该图片。</p>
+<img src="/2018/12/04/SEGV_ACCERR-异常/error03.png">
+</li>
+</ol>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='/mp3/bg-music.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#异常描述"><span class="toc-number">1.</span> <span class="toc-text">异常描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#异常原因"><span class="toc-number">2.</span> <span class="toc-text">异常原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决方案"><span class="toc-number">3.</span> <span class="toc-text">解决方案</span></a></li></ol>
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
