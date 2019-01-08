@@ -472,7 +472,8 @@ $(function() {
                   repo: comment.data('r'),
                   owner: comment.data('o'),
                   admin: comment.data('a'),
-                  id: location.pathname,
+                  // id: location.pathname,
+                  id: decodeURI(window.location.pathname),
                   distractionFreeMode: comment.data('d')
                 })
                 $(".comment").removeClass("link")
