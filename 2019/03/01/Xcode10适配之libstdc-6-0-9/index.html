@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>小小聪明屋 - 开心每一天</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fanxiaocong,"> 
+    <meta name="description" content="
+Starting March 2019, all iOS apps submitted to the App Store must be built with the iOS 12.1 SDK o,"> 
+    <meta name="author" content="fanxiaocong"> 
+    <link rel="alternative" href="atom.xml" title="小小聪明屋" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+</head>
+
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">Xcode10适配之libstdc++.6.0.9</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">Xcode10适配之libstdc++.6.0.9</h1>
+        <div class="stuff">
+            <span>三月 01, 2019</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Xcode10/">Xcode10</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/iOS12/">iOS12</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/libstdc-6-0-9/">libstdc++.6.0.9</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <blockquote>
+<p><em>Starting March 2019, all iOS apps submitted to the App Store must be built with the iOS 12.1 SDK or later, included in Xcode 10.1 or later.</em><br>译：从2019年3月开始，所有提交到AppStore的iOS应用程序都必须使用iOS12.1的SDK或更高版本，包括在Xcode 10.1或更高版本中。</p>
+</blockquote>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>前段时间迟迟不敢更新最新的 Xcode，就是担心之前维护的老项目会出现比较大的异常。老项目<br>是 14 年开的，一直维护到现在，中途几经人手，而且项目中用到很多第三方的 SDK，包括一些<br>对接硬件和视频的东西，添加的依赖关系也比较杂乱，所以我当时的想法就是就只要项目能够正常运行、正常打包、正常上架，能不更新 Xcode 就不更新 Xcode。只是理想很丰满，现实太骨感，在最近一次上架的时候，苹果回了一封邮件，意思是要我用最新的 Xcode 打包上架。所以就只能更新了。当我更新完之后，重新打开项目时，果然，该来的迟早会来的。编译后，红了一大片，只能硬着头皮一个个看，然后在网上找资料，最后总算是将问题都解决了。现将其中一个比较典型的问题分享出来，以便以后查看！</p>
+<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>当我使用模拟器或者真机进行编译时，提示 <code>libstdc++.6.0.9</code> 这个库找不到。下面是具体报错的截图：</p>
+<img src="/2019/03/01/Xcode10适配之libstdc-6-0-9/1.png" title="clang error">
+<h3 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h3><p>由于项目中引用的第三方库中依赖了 <code>libstdc++</code> 这个库，而苹果在 Xcode10 和 iOS12 中移除了 <code>libstdc++</code> 这个库，苹果的解释是 <code>libstdc++</code> 这个库已经标记为废弃5年了，建议大家使用经过了 <code>llvm</code> 优化过的 <code>libc++</code> 库。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><h4 id="临时解决方案"><a href="#临时解决方案" class="headerlink" title="临时解决方案"></a>临时解决方案</h4><p>手动将 <code>libstdc++</code> 这个库添加到最新的 Xcode 目录中。<br>可以在更新之前的 Xcode(Xcode9 或之前的版本) 的目录中将 <code>libstdc++</code> 相关的库拷贝出来，然后添加到最新的 Xcode10 的目录中。下面是具体路径：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">模拟器的目录</span><br><span class="line">/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/lib</span><br><span class="line"></span><br><span class="line">真机的目录</span><br><span class="line">/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p><em style="color:darkgray;font-size:14px;"> 注：模拟器和真机对应的目录是不同的，需要分别进行拷贝。</em></p>
+</blockquote>
+<p>为了以后能够方便的进行拷贝，这里将两份文件的压缩包提供出来。</p>
+<ol>
+<li>将 <u><a href="/download/libstdc++.6.0.9.tbd.zip">libstdc++.6.0.9.tbd.zip</a></u> 解压，放到上面对应的真机的目录下</li>
+<li>将 <u><a href="/download/libstdc++.6.0.9.tbd_simulator.zip">libstdc++.6.0.9.tbd_simulator.zip</a></u> 解压，放到上面对应的模拟器的目录下</li>
+</ol>
+<h4 id="正确解决方案"><a href="#正确解决方案" class="headerlink" title="正确解决方案"></a>正确解决方案</h4><ul>
+<li><p>更改项目的依赖库。<br>如果你自己的项目需要依赖 <code>libstdc++</code> 这个库，那么将依赖的库修改为 <code>libc++</code>。然后重新编译，看是否存在问题。</p>
+</li>
+<li><p>如果是使用的第三方库中依赖了 <code>libstdc++</code> 这个库，那么就需要联系第三方的技术人员，要求他们更新自己的SDK。</p>
+</li>
+</ul>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='/mp3/bg-music.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='true'
+        data-ci='c7d7fb319bad1d731692'
+        data-cs='e3c946cad16f7d988681439f07cac879bee42651'
+        data-r='fanxiaocong.github.io'
+        data-o='fanxiaocong'
+        data-a='fanxiaocong'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题描述"><span class="toc-number">2.</span> <span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题分析"><span class="toc-number">3.</span> <span class="toc-text">问题分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决方案"><span class="toc-number">4.</span> <span class="toc-text">解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#临时解决方案"><span class="toc-number">4.1.</span> <span class="toc-text">临时解决方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#正确解决方案"><span class="toc-number">4.2.</span> <span class="toc-text">正确解决方案</span></a></li></ol></li></ol>
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
