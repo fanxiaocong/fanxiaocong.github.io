@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>小小聪明屋 - 开心每一天</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fanxiaocong,"> 
+    <meta name="description" content="在小程序开发过程中，页面与页面之间通信的问题一直都是一个非常重要的问题。而 数据的传递 与 事件的回调 是通信的两种表现形式。
+这里总结了几种传值与回调的方式。
+
+ 注：以下统一使用 A 页面代表前,"> 
+    <meta name="author" content="fanxiaocong"> 
+    <link rel="alternative" href="atom.xml" title="小小聪明屋" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+</head>
+
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">微信小程序开发之页面间的通信</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">微信小程序开发之页面间的通信</h1>
+        <div class="stuff">
+            <span>三月 28, 2019</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/JS/">JS</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/小程序/">小程序</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <p>在小程序开发过程中，页面与页面之间通信的问题一直都是一个非常重要的问题。而 <strong><em>数据的传递</em></strong> 与 <strong><em>事件的回调</em></strong> 是通信的两种表现形式。</p>
+<p>这里总结了几种传值与回调的方式。</p>
+<blockquote>
+<p><em style="color:darkgray;font-size:14px;"> 注：以下统一使用 A 页面代表前一个页面，B 页面代表后一个页面</em><br><em style="color:darkgray;font-size:14px;">博文中引用的 <u><a href="https://github.com/fanxiaocong/Demo-Communication" target="_blank" rel="noopener">Demo</a></u> 已经放到 github 上面了，有需要的小伙伴可以去下载</em></p>
+</blockquote>
+<h3 id="正向传值"><a href="#正向传值" class="headerlink" title="正向传值"></a>正向传值</h3><p>正向传值是软件开发中页面与页面之间最常见的一种数据传递的方式。例如当 App 从列表跳转到详情页面的时候，就需要将对应的列表 id 传递给详情页面。</p>
+<img src="/2019/03/28/微信小程序开发之页面间的通信/1.png" title="正向传值">
+<h4 id="URL传值"><a href="#URL传值" class="headerlink" title="URL传值"></a>URL传值</h4><h5 id="简单参数"><a href="#简单参数" class="headerlink" title="简单参数"></a><span style="font-size:17px;">简单参数</span></h5><p>对于 <strong><em>数值类型</em></strong> 或 <strong><em>字符串类型</em></strong> 的参数，可以直接将参数拼接在 A 页面的 <code>url</code> 路径后面，使用 <code>?</code> 来分隔路径与参数，参数名与参数值之间使用 <code>=</code> 连接，多个参数之间用 <code>&amp;</code> 隔开，如 <code>path?key=value&amp;key2=value2</code> ，然后在 B 页面的 <code>onLoad</code> 方法里面来取值。</p>
+<p>A 页面</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Page(&#123;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/// 略...</span></span><br><span class="line">   </span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 跳转到 B 页面</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   jumpToPageB() &#123;</span><br><span class="line">      <span class="comment">/// 将 name 参数传递给 B 页面</span></span><br><span class="line">      wx.navigateTo(&#123;</span><br><span class="line">         url: <span class="string">'../B/B?name=简单参数'</span>,</span><br><span class="line">      &#125;);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>B 页面</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Page(&#123;</span><br><span class="line">   onLoad: <span class="function"><span class="keyword">function</span> (<span class="params">options</span>) </span>&#123;</span><br><span class="line">      <span class="comment">/// 接收 A 页面传递过来的 name 参数</span></span><br><span class="line">      <span class="keyword">const</span> name = options.name;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h5 id="复杂参数"><a href="#复杂参数" class="headerlink" title="复杂参数"></a><span style="font-size:17px;">复杂参数</span></h5><p>对于 <strong><em>数组</em></strong> 或 <strong><em>对象</em></strong> 这样的参数，它的传值方式同样是将参数拼接在路径后面，只不过需要先将参数值转化为 <code>json</code> 字符串。</p>
+<p>A 页面</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Page(&#123;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/// 略...</span></span><br><span class="line">   </span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 跳转到 B 页面</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   jumpToPageB() &#123;</span><br><span class="line">      <span class="keyword">const</span> params = [&#123;</span><br><span class="line">         id: <span class="number">1</span>,</span><br><span class="line">         name: <span class="string">'复杂参数'</span></span><br><span class="line">      &#125;, &#123;</span><br><span class="line">         id: <span class="number">2</span>,</span><br><span class="line">         name: <span class="string">'复杂参数'</span></span><br><span class="line">      &#125;];</span><br><span class="line"></span><br><span class="line">      <span class="comment">/// 将 params 参数传递给 B 页面</span></span><br><span class="line">      <span class="comment">/// 需要将 params 转化为 json 字符串</span></span><br><span class="line">      wx.navigateTo(&#123;</span><br><span class="line">         url: <span class="string">'../B/B?params='</span> + <span class="built_in">JSON</span>.stringify(params),</span><br><span class="line">      &#125;);   </span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>B 页面</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Page(&#123;</span><br><span class="line">   onLoad: <span class="function"><span class="keyword">function</span> (<span class="params">options</span>) </span>&#123;</span><br><span class="line">      <span class="comment">/// 接收 A 页面传递过来的 params 参数</span></span><br><span class="line">      <span class="comment">/// 传递过来的参数是一个 json 字符串，可以将它转化为对象</span></span><br><span class="line">      <span class="keyword">const</span> params = <span class="built_in">JSON</span>.parse(options.params);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><em style="color:darkgray;font-size:14px;"> 注意：通过 <code>URL</code> 这种方式进行的数据传递只支持 <code>wx.navigateTo</code>、 <code>wx.redirectTo</code> 以及 <code>wx.reLaunch</code> 这三种跳转形式，如果你是通过 <code>wx.switchTab</code> 来进行的跳转则不能通过这种方式进行参数传递。</em></p>
+</blockquote>
+<h4 id="全局的App对象传值"><a href="#全局的App对象传值" class="headerlink" title="全局的App对象传值"></a>全局的App对象传值</h4><p>通过获取 App 对象的实例，将需要的参数绑定在这个实例上面，在 A 页面进行赋值，B 页面取值，也可以达到传值的目的。这种方式利用了全局的 App 对象，通过 <code>getApp()</code> 方法获取的 App 的实例永远都是同一个（可以理解为一个单例对象），因此不同页面直接可以通过 App 实例下的属性来共享数据。</p>
+<p>A页面</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 获取全局 App 实例</span></span><br><span class="line"><span class="keyword">const</span> app = getApp();</span><br><span class="line"></span><br><span class="line">Page(&#123;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/// 略....</span></span><br><span class="line">   </span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 跳转到 B 页面</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   jumpToPageB() &#123;</span><br><span class="line">      <span class="comment">/// 页面跳转之前，先将参数 globalData 绑定在 app 对象上</span></span><br><span class="line">      app.globalData = &#123;</span><br><span class="line">         id: <span class="number">1</span>,</span><br><span class="line">         name: <span class="string">'全局参数'</span></span><br><span class="line">      &#125;;</span><br><span class="line">       </span><br><span class="line">      <span class="comment">/// 页面跳转</span></span><br><span class="line">      wx.navigateTo(&#123;</span><br><span class="line">         url: <span class="string">'../B/B'</span></span><br><span class="line">      &#125;)</span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>B 页面</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 获取全局 App 实例</span></span><br><span class="line"><span class="keyword">const</span> app = getApp();</span><br><span class="line"></span><br><span class="line">Page(&#123;</span><br><span class="line"></span><br><span class="line">   onLoad: <span class="function"><span class="keyword">function</span> (<span class="params">options</span>) </span>&#123;</span><br><span class="line">      <span class="comment">/// 取出绑定在 app 对象上的 globalData 属性</span></span><br><span class="line">      <span class="keyword">const</span> globalData = app.globalData;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><em style="color:darkgray;font-size:14px;"> 注意：由于获取到的 App 对象是一个全局的对象，当使用这种方式进行传值时，我们所定义的那些字段都会被当作这个对象的一个属性添加在它上面，因此对于那些数据量比较大，并且又不是大部分页面所需要的数据（仅仅只是从 A 页面到 B 页面进行的数据传递）就不建议使用这种方式。一般我们只是将一些数据量不大，并且很多页面需要使用到的数据通过这种方式进行传递，如：用户的登录状态、用户的id等。</em></p>
+</blockquote>
+<h4 id="本地存储传值"><a href="#本地存储传值" class="headerlink" title="本地存储传值"></a>本地存储传值</h4><p>微信提供了一组与数据缓存相关的 <em><u><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/ability/storage.html" target="_blank" rel="noopener">API</a></u></em>，可以将需要传递的数据缓存在本地，然后在需要用到的时候从本地取出来。通过这种方式也可以进行一些页面之间数据的传递。</p>
+<p>A 页面</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Page(&#123;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/// 略....</span></span><br><span class="line">   </span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 跳转到 B 页面</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   jumpToPageB() &#123;</span><br><span class="line">      <span class="keyword">const</span> localData = &#123;</span><br><span class="line">         id: <span class="number">1</span>,</span><br><span class="line">         name: <span class="string">'本地数据'</span></span><br><span class="line">      &#125;;  </span><br><span class="line">   </span><br><span class="line">      <span class="comment">/// 将数据缓存在本地，并指定一个名称 LOCAL_DATA</span></span><br><span class="line">      wx.setStorageSync(<span class="string">'LOCAL_DATA'</span>, localData);</span><br><span class="line"></span><br><span class="line">      <span class="comment">/// 跳转到 B 页面</span></span><br><span class="line">      wx.navigateTo(&#123;</span><br><span class="line">        url: <span class="string">'../B/B'</span>,</span><br><span class="line">      &#125;);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>B 页面</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Page(&#123;</span><br><span class="line">   onLoad: <span class="function"><span class="keyword">function</span> (<span class="params">options</span>) </span>&#123;</span><br><span class="line">      <span class="comment">/// 通过 LOCAL_DATA 取出缓存在本地的数据</span></span><br><span class="line">      <span class="keyword">const</span> localData = wx.getStorageSync(<span class="string">'LOCAL_DATA'</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><em style="color:darkgray;font-size:14px;"> 注意：微信官方文档已经明确说明，同一个微信用户，同一个小程序 storage 上限为 10MB。如果用户储存空间不足，会清空最近最久未使用的小程序的本地缓存。因此不建议将关键信息全部存在 storage，以防储存空间不足或用户换设备的情况。我们一般只是将少量的数量缓存在本地，如：登录相关的信息。</em></p>
+</blockquote>
+<h3 id="逆向传值与回调"><a href="#逆向传值与回调" class="headerlink" title="逆向传值与回调"></a>逆向传值与回调</h3><p>日常开发中也经常会用到这种情况，当我们从 A 页面跳转到 B 页面，在 B 页面做了某些操作后，需要通知 A 页面，并回传相应的数据给 A 页面。比如：B 页面是一个选择联系人的页面，当我们选择完联系人后，需要将选好的那些联系人的数据传回给 A 页面。</p>
+<img src="/2019/03/28/微信小程序开发之页面间的通信/2.png" title="逆向传值">
+<h4 id="全局的App对象传值-1"><a href="#全局的App对象传值-1" class="headerlink" title="全局的App对象传值"></a>全局的App对象传值</h4><p>和正向传值一样，通过全局的 App 对象这种方式进行的数据传递也可用于逆向传值，也就是数据从 B 页面传递回 A 页面。具体使用方式和正向传值基本一致，只不过现在是在 B 页面进行赋值，在 A 页面进行取值，将上面的存取操作返回过来而已。</p>
+<p>A页面</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 获取全局 App 实例</span></span><br><span class="line"><span class="keyword">const</span> app = getApp();</span><br><span class="line"></span><br><span class="line">Page(&#123;</span><br><span class="line"></span><br><span class="line">   onShow: <span class="function"><span class="keyword">function</span> (<span class="params">options</span>) </span>&#123;</span><br><span class="line">      <span class="comment">/// 取出绑定在 app 对象上的 globalData 属性</span></span><br><span class="line">      <span class="comment">/// 如果想要在 B 页面返回 A 页面的时候就获取到传递过来的数据，就需要在 onShow 方法里面来取值</span></span><br><span class="line">      <span class="keyword">const</span> globalData = app.globalData;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>B 页面</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 获取全局 App 实例</span></span><br><span class="line"><span class="keyword">const</span> app = getApp();</span><br><span class="line"></span><br><span class="line">Page(&#123;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/// 略...</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 返回到到 A 页面</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   backToPageA() &#123;</span><br><span class="line">      <span class="comment">/// 页面返回之前，先将参数 globalData 绑定在 app 对象上</span></span><br><span class="line">      app.globalData = &#123;</span><br><span class="line">         id: <span class="number">1</span>,</span><br><span class="line">         name: <span class="string">'全局参数'</span></span><br><span class="line">      &#125;;</span><br><span class="line">       </span><br><span class="line">      <span class="comment">/// 返回 A 页面</span></span><br><span class="line">      wx.navigateBack();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="本地存储传值-1"><a href="#本地存储传值-1" class="headerlink" title="本地存储传值"></a>本地存储传值</h4><p>同正向传值一样，可以将需要传递的数据缓存在本地，然后在需要用到的地方从本地取出来。</p>
+<p>A页面</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 获取全局 App 实例</span></span><br><span class="line"><span class="keyword">const</span> app = getApp();</span><br><span class="line"></span><br><span class="line">Page(&#123;</span><br><span class="line"></span><br><span class="line">   onShow: <span class="function"><span class="keyword">function</span> (<span class="params">options</span>) </span>&#123;</span><br><span class="line">     <span class="comment">/// 通过 LOCAL_DATA 取出缓存在本地的数据</span></span><br><span class="line">     <span class="comment">/// 如果想要在 B 页面返回 A 页面的时候就获取到传递过来的数据，就需要在 onShow 方法里面来取值</span></span><br><span class="line">     <span class="keyword">const</span> localData = wx.getStorageSync(<span class="string">'LOCAL_DATA'</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>B 页面</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 获取全局 App 实例</span></span><br><span class="line"><span class="keyword">const</span> app = getApp();</span><br><span class="line"></span><br><span class="line">Page(&#123;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/// 略...</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 返回到到 A 页面</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   backToPageA() &#123;</span><br><span class="line">     <span class="keyword">const</span> localData = &#123;</span><br><span class="line">       id: <span class="number">1</span>,</span><br><span class="line">       name: <span class="string">'本地数据'</span></span><br><span class="line">     &#125;;</span><br><span class="line"></span><br><span class="line">     <span class="comment">/// 将数据缓存在本地，并指定一个名称 LOCAL_DATA</span></span><br><span class="line">     wx.setStorageSync(<span class="string">'LOCAL_DATA'</span>, localData);</span><br><span class="line">       </span><br><span class="line">     <span class="comment">/// 返回 A 页面</span></span><br><span class="line">     wx.navigateBack();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="获取Page实例传值"><a href="#获取Page实例传值" class="headerlink" title="获取Page实例传值"></a>获取Page实例传值</h4><p>我们可以在当前页面获取前一个页面的 Page 实例，就可以操作这个实例，进而达到传值的目的。<br><code>getCurrentPages()</code> 函数用于获取当前页面栈的实例，以数组形式按栈的顺序给出，第一个元素为首页，最后一个元素为当前页面。</p>
+<p>A页面</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Page(&#123;</span><br><span class="line"></span><br><span class="line">  data: &#123;</span><br><span class="line">    id: <span class="string">''</span></span><br><span class="line">  &#125;,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>B 页面</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 获取全局 App 实例</span></span><br><span class="line"><span class="keyword">const</span> app = getApp();</span><br><span class="line"></span><br><span class="line">Page(&#123;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/// 略...</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 返回到到 A 页面</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   backToPageA() &#123;</span><br><span class="line">     <span class="comment">// 获取页面栈的数组</span></span><br><span class="line">     <span class="keyword">const</span> pages = getCurrentPages();</span><br><span class="line">     <span class="comment">// 取出上一级页面</span></span><br><span class="line">     <span class="keyword">const</span> prePage = pages[pages.length - <span class="number">2</span>];</span><br><span class="line">     <span class="comment">// 直接赋值</span></span><br><span class="line">     prePage.setData(&#123;</span><br><span class="line">       id: <span class="string">'1'</span></span><br><span class="line">     &#125;);</span><br><span class="line">       </span><br><span class="line">     <span class="comment">/// 返回 A 页面</span></span><br><span class="line">     wx.navigateBack();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><em style="color:darkgray;font-size:14px;"> 注意：使用这种方式进行传值有一个前提，这两个通信的页面之间需要处于同一个页面栈。也就是说这种方式只适用于通过 <code>wx.navigateTo</code> 来进行的页面跳转。</em></p>
+</blockquote>
+<h4 id="事件回调传值"><a href="#事件回调传值" class="headerlink" title="事件回调传值"></a>事件回调传值</h4><p>事件回调也可以理解为事件的订阅与分发，它应该是平时开发过程中最常用的一种反向传值的处理方式。做过移动端开发小伙伴应该对这个非常熟悉，类似于 iOS 的通知以及 Andriod 的广播。<br>这里介绍一个第三方的 JavaScript 库 <em><u><a href="https://github.com/hustcc/onfire.js" target="_blank" rel="noopener">onfire.js</a></u></em> 。</p>
+<h5 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a><span style="font-size:17px;">使用步骤</span></h5><ol>
+<li><p>导入 <code>onfire.js</code> 文件，然后在项目的公共模块中创建一个 <code>onfire</code> 实例，用于数据通信。比如 <code>util.js</code> 中。</p>
+<p> <code>util.js</code> 文件</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> OnFire <span class="keyword">from</span> <span class="string">'onfire.js'</span>;</span><br><span class="line"><span class="keyword">const</span> onFire = <span class="keyword">new</span> OnFire();</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  onFire: onFire</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>A 页面引入 <code>onfire</code> 实例，然后订阅一个事件，并定义好收到回调后的处理方法。在 A 页面的 <code>onUnload</code> 方法中（也就是 A 页面卸载的时候），取消订阅的事件。</p>
+<p> A 页面</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> tool = <span class="built_in">require</span>(<span class="string">'../../../utils/util.js'</span>);</span><br><span class="line"><span class="keyword">const</span> onfire = tool.onFire;</span><br><span class="line"></span><br><span class="line">Page(&#123;</span><br><span class="line"></span><br><span class="line">  onUnload() &#123;</span><br><span class="line">    <span class="comment">/// 取消订阅的事件</span></span><br><span class="line">    onfire.off(<span class="string">'Notification'</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">  </span><br><span class="line">  onLoad(options) &#123;</span><br><span class="line">     <span class="comment">/// 订阅一个事件</span></span><br><span class="line">     <span class="comment">// Notification：事件名称，可以随意命名，但需要于 B 页面的事件名称相同</span></span><br><span class="line">     <span class="comment">// e：传递过来的参数</span></span><br><span class="line">     onfire.on(<span class="string">'Notification'</span>, e =&gt; &#123;</span><br><span class="line">        <span class="comment">// 在这里编写收到回调后的逻辑</span></span><br><span class="line">        <span class="comment">// 略...</span></span><br><span class="line">     &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol start="3">
+<li><p>B 页面引入 <code>onfire</code> 实例，然后在需要传值或回调的地方发送消息并根据需要传递相应的参数。</p>
+<p> B 页面</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> tool = <span class="built_in">require</span>(<span class="string">'../../../utils/util.js'</span>);</span><br><span class="line"><span class="keyword">const</span> onfire = tool.onFire;</span><br><span class="line"></span><br><span class="line">Page(&#123;</span><br><span class="line">   <span class="comment">/// 略...</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 返回到到 A 页面</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   backToPageA() &#123;</span><br><span class="line">      <span class="comment">/// 分发事件</span></span><br><span class="line">      <span class="comment">// Notification：事件名称，可以随意命名，但需要于 A 页面的事件名称相同</span></span><br><span class="line">      <span class="comment">// 100：传递过去的参数</span></span><br><span class="line">      onfire.fire(<span class="string">'Notification'</span>, <span class="string">'100'</span>);</span><br><span class="line">   </span><br><span class="line">      <span class="comment">/// 返回 A 页面</span></span><br><span class="line">      wx.navigateBack();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h5 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a><span style="font-size:17px;">注意事项</span></h5><ol>
+<li>由于通信双方是通过 <code>onfire</code> 实例来管理消息的订阅与分发的，所以必须保证这两个通信的页面所引用的 <code>onfire</code> 实例是同一个实例，这也是为什么我们需要在一个公共模块中创建 <code>onfire</code> 实例。</li>
+<li>事件的订阅与分发有严格的先后顺序。必须先订阅事件，然后才能进行事件的分发。也就是说在事件分发的时候，必须保证订阅该事件的页面是已经存在的（B 页面在发送消息的时候，A 页面是已经存在的）。这也就解释了这种机制只适用于逆向的传值与回调，而不是正向的。</li>
+</ol>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='/mp3/bg-music.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='true'
+        data-ci='c7d7fb319bad1d731692'
+        data-cs='e3c946cad16f7d988681439f07cac879bee42651'
+        data-r='fanxiaocong.github.io'
+        data-o='fanxiaocong'
+        data-a='fanxiaocong'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#正向传值"><span class="toc-number">1.</span> <span class="toc-text">正向传值</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#URL传值"><span class="toc-number">1.1.</span> <span class="toc-text">URL传值</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#简单参数"><span class="toc-number">1.1.1.</span> <span class="toc-text">简单参数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#复杂参数"><span class="toc-number">1.1.2.</span> <span class="toc-text">复杂参数</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#全局的App对象传值"><span class="toc-number">1.2.</span> <span class="toc-text">全局的App对象传值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#本地存储传值"><span class="toc-number">1.3.</span> <span class="toc-text">本地存储传值</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#逆向传值与回调"><span class="toc-number">2.</span> <span class="toc-text">逆向传值与回调</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#全局的App对象传值-1"><span class="toc-number">2.1.</span> <span class="toc-text">全局的App对象传值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#本地存储传值-1"><span class="toc-number">2.2.</span> <span class="toc-text">本地存储传值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#获取Page实例传值"><span class="toc-number">2.3.</span> <span class="toc-text">获取Page实例传值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#事件回调传值"><span class="toc-number">2.4.</span> <span class="toc-text">事件回调传值</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#使用步骤"><span class="toc-number">2.4.1.</span> <span class="toc-text">使用步骤</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#注意事项"><span class="toc-number">2.4.2.</span> <span class="toc-text">注意事项</span></a></li></ol></li></ol></li></ol>
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
