@@ -1,3 +1,13 @@
+/**
+ * @Author: fanxiaocong
+ * @Date:   2019-08-13 14:14
+ * @Email:  1016697223@qq.com
+ * @Filename: diaspora.js
+ * @Description: 🐾
+ */
+
+
+
 var Home = location.href,
     Pages = 4,
     xhr,
@@ -68,7 +78,8 @@ var Diaspora = {
     HS: function(tag, flag) {
         var id = tag.data('id') || 0,
             url = tag.attr('href'),
-            title = tag.attr('title') || tag.text();
+            title = tag.attr('title') + " - " + $("#config-title").text();
+
         if (!$('#preview').length || !(window.history && history.pushState)) location.href = url;
         Diaspora.loading()
         var state = {d: id, t: title, u: url};
@@ -305,8 +316,8 @@ $(function() {
     $('body').on('click', function(e) {
         var tag = $(e.target).attr('class') || '',
             rel = $(e.target).attr('rel') || '';
-        // .content > p > img
-        if (e.target.nodeName == "IMG" && $(e.target).parent().get(0).nodeName == "P") {
+        // .content > ... > img
+        if (e.target.nodeName == "IMG" && $(e.target).parents('div.content').length > 0) {
             tag = 'pimg';
         }
         if (!tag && !rel) return;
@@ -315,6 +326,7 @@ $(function() {
             case (tag.indexOf('switchmenu') != -1):
                 window.scrollTo(0, 0)
                 $('html, body').toggleClass('mu');
+                return false;
                 break;
             // next page
             case (tag.indexOf('more') != -1):
@@ -355,8 +367,9 @@ $(function() {
                 if ($('#preview').hasClass('show')) {
                     history.back();
                 } else {
-                    location.href = "/";
+                    location.href = $('.icon-home').data('url')
                 }
+                return false;
                 break;
             // qrcode
             case (tag.indexOf('icon-scan') != -1):
@@ -366,16 +379,19 @@ $(function() {
                     $('.icon-scan').addClass('tg')
                     $('#qr').qrcode({ width: 128, height: 128, text: location.href}).toggle()
                 }
+                return false;
                 break;
             // audio play
             case (tag.indexOf('icon-play') != -1):
                 $('#audio')[0].play()
                 $('.icon-play').removeClass('icon-play').addClass('icon-pause')
+                return false;
                 break;
             // audio pause
             case (tag.indexOf('icon-pause') != -1):
                 $('#audio')[0].pause()
                 $('.icon-pause').removeClass('icon-pause').addClass('icon-play')
+                return false;
                 break;
             // history state
             case (tag.indexOf('cover') != -1):
@@ -452,7 +468,7 @@ $(function() {
                             // See Options -> getThumbBoundsFn section of documentation for more info
                             var thumbnail = imgs[index],
                                 pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
-                                rect = thumbnail.getBoundingClientRect(); 
+                                rect = thumbnail.getBoundingClientRect();
 
                             return {x:rect.left, y:rect.top + pageYScroll, w:rect.width};
                         }
@@ -463,7 +479,7 @@ $(function() {
                 return false;
                 break;
               // comment
-            case - 1 != tag.indexOf("comment"): 
+            case - 1 != tag.indexOf("comment"):
                 Diaspora.loading(),
                 comment = $('#gitalk-container');
                 gitalk = new Gitalk({
@@ -472,7 +488,6 @@ $(function() {
                   repo: comment.data('r'),
                   owner: comment.data('o'),
                   admin: comment.data('a'),
-                  // id: location.pathname,
                   id: decodeURI(window.location.pathname),
                   distractionFreeMode: comment.data('d')
                 })
@@ -493,4 +508,3 @@ $(function() {
     }
     console.log("%c Github %c","background:#24272A; color:#ffffff","","https://github.com/Fechin/hexo-theme-diaspora")
 })
-
