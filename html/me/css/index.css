@@ -40,7 +40,7 @@ body {
 }
 .profile .logo p:first-child {
   /* font-size: 35px; */
-  font-size: 2em;
+  font-size: 2.4em;
 }
 .profile .logo p:first-child:hover {
   cursor: pointer;
@@ -50,7 +50,8 @@ body {
 .text {
   margin: 100px auto;
   width: 320px;
-  font-size: 15px;
+  /* font-size: 15px; */
+  font-size: 1em;
   line-height: 32px;
   position: relative;
   color: rgba(255, 255, 255, 0.5);
