@@ -39,7 +39,8 @@ body {
   margin-bottom: 10px;
 }
 .profile .logo p:first-child {
-  font-size: 35px;
+  /* font-size: 35px; */
+  font-size: 2em;
 }
 .profile .logo p:first-child:hover {
   cursor: pointer;
