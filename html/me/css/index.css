@@ -266,7 +266,7 @@ body {
           transform: scale(1);
 }
 .buttons .box-mail::after,
- .buttons .box-phone::after{
+.buttons .box-phone::after {
   display: none;
   width: 200px;
   height: 80px;
@@ -313,7 +313,11 @@ body {
 .buttons .box-mail:hover::after,
 .buttons .box-qq:hover::after,
 .buttons .box-wx:hover::after,
-.buttons .box-phone:hover::after {
+.buttons .box-phone:hover::after,
+.buttons .box-mail:focus::after,
+.buttons .box-qq:focus::after,
+.buttons .box-wx:focus::after,
+.buttons .box-phone:focus::after {
   display: inline-block;
 }
 
