@@ -1,12 +1,3 @@
-/**
- * @Author: fanxiaocong
- * @Date:   2019-08-13 14:14
- * @Email:  1016697223@qq.com
- * @Filename: diaspora.js
- * @Description: 🐾
- */
-
-
 
 var Home = location.href,
     Pages = 4,
@@ -321,11 +312,15 @@ $(function() {
             tag = 'pimg';
         }
         if (!tag && !rel) return;
+        console.log(tag);
         switch (true) {
             // nav menu
+            // case (tag.indexOf('switchmenu') != -1):
+            case (tag.indexOf('icon-ctl') != -1):
             case (tag.indexOf('switchmenu') != -1):
                 window.scrollTo(0, 0)
                 $('html, body').toggleClass('mu');
+                $(".burger").toggleClass("open");
                 return false;
                 break;
             // next page
@@ -431,7 +426,8 @@ $(function() {
                 break;
             // quick view
             case (tag.indexOf('pviewa') != -1):
-                $('body').removeClass('mu')
+                $('body').removeClass('mu');
+                $(".burger").removeClass("open");
                 setTimeout(function() {
                     Diaspora.HS($(e.target), 'push')
                     $('.toc').fadeIn(1000);

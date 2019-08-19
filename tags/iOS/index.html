@@ -16,6 +16,7 @@
     <link rel="icon" href="/img/favicon.png"> 
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
     <link rel="stylesheet" href="/css/diaspora.css">
+    <link rel="stylesheet" href="/css/cover.css">
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script>
          (adsbygoogle = window.adsbygoogle || []).push({
@@ -47,7 +48,7 @@
         </li>
         
         <li class="pview menu-item menu-item-type-post_type menu-item-object-page">
-            <a href="/tags/" title="标签云" target="_blank" rel="noopener">标签云</a>
+            <a href="/tags/" title="标签" target="_blank" rel="noopener">标签</a>
         </li>
         
         <li class="pview menu-item menu-item-type-post_type menu-item-object-page">
@@ -66,8 +67,40 @@
 <div id="screen">
     <div id="mark">
         <div class="layer" data-depth="0.4">
-            <img src="/img/welcome-cover.jpg" id="cover" crossorigin="anonymous" width="1920" height="1080">
-        </div>
+          <img src="/img/welcome-cover.jpg" id="cover" crossorigin="anonymous" width="1920" height="1080">
+
+          <div class="box">
+            <div class="sun">
+              <div class="face">
+                <div class="pupil-left"></div>
+                <div class="pupil-right"></div>
+                <div class="smile"></div>
+              </div>
+              <div class="ray">
+                <div class="beam r1"></div>
+                <div class="beam r2"></div>
+                <div class="beam r3"></div>
+                <div class="beam r4"></div>
+                <div class="beam r5"></div>
+                <div class="beam r6"></div>
+                <div class="beam r7"></div>
+                <div class="beam r8"></div>
+                <div class="beam r9"></div>
+                <div class="beam r10"></div>
+              </div>
+            </div>
+            <div class="cloud">
+              <div class="cloud-left"></div>
+              <div class="cloud-right"></div>
+              <div class="cloud-bottom"></div>
+              <div class="eye-left"><div class="pupil"></div></div>
+              <div class="eye-right"><div class="pupil"></div></div>
+              <div class="mouth"></div>
+              <div class="tear-left"></div>
+              <div class="tear-right"></div>
+            </div>
+          </div>
+      </div>
     </div>
     <div id="vibrant">
         <svg viewBox="0 0 2880 1620" height="100%" preserveAspectRatio="xMaxYMax slice">
@@ -78,7 +111,10 @@
     <div id="header">
         <div>
             <a class="image-logo" href="/"></a>
-            <div class="icon-menu switchmenu"></div>
+            <!-- <div class="icon-menu switchmenu"></div> -->
+            <div class="icon-menu burger switchmenu">
+              <div class="icon-ctl"></div>
+            </div>
         </div>
     </div>
     
@@ -94,7 +130,11 @@
         
 <div class="post">
     <a href="/2018/09/20/GIT-的基本使用/" title="GIT 的基本使用">
-        <img src="https://github.com/fanxiaocong/XCBlogAssetsLibrary/blob/master/ArticleCover/git-cover.png?raw=true" class="cover" width="680" height="440">
+        <img src="/cover/git.png" class="cover" width="680" height="440">
+        <div class="caption-text">
+          <h1>GIT 的基本使用</h1>
+          <p>九月 20, 2018</p>
+        </div>
     </a>
     <div class="else">
         <p>九月 20, 2018</p>

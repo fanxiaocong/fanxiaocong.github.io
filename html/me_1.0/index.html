@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html class="ie ie6 no-js" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <html class="ie ie7 no-js" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie ie8 no-js" lang="en"> <![endif]-->
+<!--[if IE 9 ]>    <html class="ie ie9 no-js" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--><html class="no-js" lang="en"><!--<![endif]-->
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>小小聪明屋 - 开心每一天</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="小小聪明屋  开心每一天" />
+        <meta name="keywords" content="blog, fanxiaocong, xiaocong, background, slideshow, images, content" />
+        <meta name="author" content="fanxiaocong" />
+        <link rel="shortcut icon" href="../favicon.ico">
+        <link rel="stylesheet" type="text/css" href="css/demo.css" />
+        <link rel="stylesheet" type="text/css" href="css/text.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+        <link href="css/reveal-it.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="js/modernizr.custom.86080.js"></script>
+        <script src="../../js/jquery.min.js" type="text/javascript"></script>
+        <script type="text/javascript" src="js/jquery.lettering.js"></script>
+        <script src="js/reveal-it.js" type="text/javascript"></script>
+        <script src="js/main.js" type="text/javascript"></script>
+        <script>
+            $(document).ready(function() {
+                $(".cs-text-cut").lettering('words');
+                $(".container > header > h1 > span").click(function () {
+                    history.go(-1);
+                });
+                // 兼容手机
+                $(".cs-text").on("touchstart", touchStart);
+                $("body").on("touchend", touchEnd);
+                function touchStart(event) {
+                    $(".cs-text-cut:first-child").addClass("cs-text-cut-top-touch-start");
+                    $(".cs-text-cut:last-child").addClass("cs-text-cut-bottom-touch-start");
+                    $(".cs-text-mid").addClass("cs-text-cut-middle-touch-start");
+                }
+                function touchEnd(event) {
+                    $(".cs-text-cut:first-child").removeClass("cs-text-cut-top-touch-start");
+                    $(".cs-text-cut:last-child").removeClass("cs-text-cut-bottom-touch-start");
+                    $(".cs-text-mid").removeClass("cs-text-cut-middle-touch-start");
+                }
+            });
+        </script>
+    </head>
+    <body id="page">
+        <ul class="cb-slideshow">
+            <li><span>Image 01</span><div><h3>happy·every·day</h3></div></li>
+            <li><span>Image 02</span><div><h3></h3></div></li>
+            <li><span>Image 03</span><div><h3>better·late·than·never</h3></div></li>
+            <li><span>Image 04</span><div><h3></h3></div></li>
+            <li><span>Image 05</span><div><h3>stay·true·to·the·mission</h3></div></li>
+            <li><span>Image 06</span><div><h3></h3></div></li>
+        </ul>
+        <div class="container">
+            <header>
+                <h1><span>小小聪明屋</span></h1>
+                <h2>开心每一天</h2>
+            </header>
+            <section class="main">
+                <h2 class="cs-text">
+                    <span class="cs-text-cut">AboutMe</span>
+                    <span class="cs-text-mid">嗨，我是樊小聪。是一名软件开发工程师，现就职于深圳的一家互联网公司，喜欢运动，听歌！</span>
+                    <span class="cs-text-cut">AboutMe</span>
+                </h2>
+            </section>
+        </div>
+    </body>
+</html>
