@@ -176,6 +176,7 @@ body {
   float: right;
 }
 .buttons .box {
+  cursor: pointer;
   display: inline-block;
   width: 50px;
   height:50px;
@@ -314,4 +315,21 @@ body {
 .buttons .box-wx:hover::after,
 .buttons .box-phone:hover::after {
   display: inline-block;
+}
+
+@media screen and (max-width:480px) {
+  .profile .logo p:first-child {
+    font-size: 1.8em;
+  }
+  .buttons .box {
+    width: 40px;
+    height: 40px;
+    margin: 0 5px;
+  }
+  .buttons .box div {
+    line-height: 40px;
+  }
+  .fa {
+    font-size: 28px;
+  }
 }

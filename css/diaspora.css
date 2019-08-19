@@ -425,6 +425,7 @@ a.pviewa:hover {
   z-index:4;
   right:0;
   top:0;
+  cursor: pointer;
 }
 .icon-ctl {
   height: 4px;
