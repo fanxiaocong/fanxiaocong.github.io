@@ -197,7 +197,7 @@ body {
   border-radius: 25%;
   box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.05);
   -webkit-transition: all 0.35s cubic-bezier(0.31, -0.105, 0.43, 1.59);
-  transition: all 0.35s cubic-bezier(0.31, -0.105, 0.43, 1.59);
+          transition: all 0.35s cubic-bezier(0.31, -0.105, 0.43, 1.59);
 }
 .buttons .box div:before {
   content: '';
@@ -210,7 +210,7 @@ body {
   -webkit-transform: rotate(45deg);
           transform: rotate(45deg);
   -webkit-transition: all 0.35s cubic-bezier(0.31, -0.105, 0.43, 1.59);
-  transition: all 0.35s cubic-bezier(0.31, -0.105, 0.43, 1.59);
+          transition: all 0.35s cubic-bezier(0.31, -0.105, 0.43, 1.59);
 }
 .fa {
   font-size: 35px;
@@ -218,7 +218,7 @@ body {
   -webkit-transform: scale(0.8);
           transform: scale(0.8);
   -webkit-transition: all 0.35s cubic-bezier(0.31, -0.105, 0.43, 1.59);
-  transition: all 0.35s cubic-bezier(0.31, -0.105, 0.43, 1.59);
+          transition: all 0.35s cubic-bezier(0.31, -0.105, 0.43, 1.59);
 }
 .buttons .box .home:before {
   background-color: #DC4A38;
@@ -335,5 +335,12 @@ body {
   }
   .fa {
     font-size: 28px;
+  }
+  .buttons .box-qq::after,
+  .buttons .box-wx::after {
+    width: 150px;
+    height: 150px;
+    top: -160px;
+    margin-left: -75px;
   }
 }

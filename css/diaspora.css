@@ -89,7 +89,7 @@ body.mu .icon-logo {color:#333;}
 .menu {text-align:center;margin-top:200px;}
 .menu li {font-size:18px;display:inline-block;margin:0 20px 20px 0;}
 .menu a {color:#666;letter-spacing:1px;}
-.menu a:hover {color:#333;}
+.menu a:hover {color:#000;}
 .nav p {color:#999;font-size:12px;position:absolute;width:100%;text-align:center;bottom:30px;}
 .nav p a {color:#999;text-decoration:underline;}
 .nav p:first-letter {font-family:sans-serif;}
@@ -97,7 +97,7 @@ body.mu .icon-logo {color:#333;}
 .set h3 {font-size:22px;font-weight:500;margin:15px 0 20px}
 .set a {display:inline-block;position:relative;color:#424242;padding:5px 5px}
 .set a::before {content:"";position:absolute;width:0;right:0;bottom:0;height:2px;background:#2196F3}
-.set a:hover {color:#2196F3!important;text-decoration: underline;}
+.set a:hover {color:#F26798!important;text-decoration: underline;}
 .set .category-list-item,.set .tag-list-item {display:inline-block;font-size:17px;text-align:left}
 .set .category-list-item .category-list-count,.set .category-list-item .tag-list-count,.set .tag-list-item .category-list-count,.set .tag-list-item .tag-list-count {color:#9E9E9E;font-style:normal}
 .set .category-list-item .category-list-count::before,.set .category-list-item .tag-list-count::before,.set .tag-list-item .category-list-count::before,.set .tag-list-item .tag-list-count::before {content:"["}
@@ -472,4 +472,46 @@ a.pviewa:hover {
   background-color: #333;
   transition: transform 0.3s;
   transform: rotateZ(-405deg) translate(4px, -10px);
+}
+/* 列表标题 */
+
+
+#post0 a,
+.post .else a {
+  display: inline-block;
+  transform: translate3d(-0.5em,0,0);
+  transition: transform 0.5s, color 0.5s;
+  transition-timing-function: cubic-bezier(0.2,1,0.3,1);
+}
+#post0 a::before,
+.post .else a::before {
+  content: '';
+	position: absolute;
+	z-index: -1;
+  bottom: -3px;
+	left: 0.05em;
+  width: 100%;
+	height: 1px;
+  opacity: 0.6;
+  background: #000;
+  transform: scale3d(0,1,1);
+  transform-origin: 100% 50%;
+  transition: transform 0.5s cubic-bezier(0.2,1,0.3,1);
+}
+#post0 a:hover,
+.post .else a:hover {
+  color: #000;
+  transform: translate3d(0,0,0);
+}
+#post0 a::before {
+  background: #fff;
+}
+#post0 a:hover {
+  color: #fff;
+}
+#post0 a:hover::before,
+.post .else a:hover::before {
+  transform: scale3d(1,1,1);
+  transform-origin: 0% 50%;
+  transition-timing-function: ease;
 }
