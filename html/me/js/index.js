@@ -1,5 +1,8 @@
 window.onload = function() {
 
+  // 解决在 iOS系统中的 :focus 无效的Bug
+  document.body.addEventListener('touchstart', function () {});
+
   // 点击 Logo 返回首页
   var logoTitle = document.getElementById('logoTitle');
   logoTitle.onclick = function() {
