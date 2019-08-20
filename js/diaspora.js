@@ -301,7 +301,7 @@ $(function() {
     })
     $(window).on('touchmove', function(e) {
         if ($('body').hasClass('mu')) {
-            e.preventDefault()
+            // e.preventDefault()
         }
     })
     $('body').on('click', function(e) {
