@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>iOS设计模式 - 工厂方法模式 - 小小聪明屋</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fanxiaocong,"> 
+    <meta name="description" content="引入前面我们已经介绍过 简单工厂模式 的基本概念，知道了它的特点是将对象的创建与使用进行了分离，屏蔽了对象创建的内部细节，让外部的调用更加方便。但是它的的缺点也比较明显，当需要添加新的目标对象时，我,"> 
+    <meta name="author" content="fanxiaocong"> 
+    <link rel="alternative" href="atom.xml" title="小小聪明屋" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <link rel="stylesheet" href="/css/cover.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+</head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">小小聪明屋</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="https://fanxiaocong.github.io"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">iOS设计模式 - 工厂方法模式</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">iOS设计模式 - 工厂方法模式</h1>
+        <div class="stuff">
+            <span>九月 14, 2019</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/iOS/">iOS</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/工厂方法模式/">工厂方法模式</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h4 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h4><p>前面我们已经介绍过 <em style="color:#333;font-size:16px;"><u><a href="https://fanxiaocong.github.io/2019/09/09/简单工厂模式/">简单工厂模式</a></u></em> 的基本概念，知道了它的特点是将对象的创建与使用进行了分离，屏蔽了对象创建的内部细节，让外部的调用更加方便。但是它的的缺点也比较明显，当需要添加新的目标对象时，我们不得不修改工厂类提供的静态方法，如果目标对象过多，工厂类就会比较臃肿，不利于项目的拓展和维护，同时也违背了 <code>开闭原则</code> 。为了解决这个问题，就需要引入一个新的设计模式 — <strong><em>工厂方法模式</em></strong>。</p>
+<blockquote>
+<p><em style="color:darkgray;font-size:14px;">博文中引用的 <u><a href="https://github.com/fanxiaocong/BlobFactoryMethodDemo" target="_blank" rel="noopener">Demo</a></u> 已经放到 github 上面了，有需要的小伙伴可以去下载</em></p>
+</blockquote>
+<h4 id="模式介绍"><a href="#模式介绍" class="headerlink" title="模式介绍"></a>模式介绍</h4><p><strong>工厂方法模式</strong>（Factory Method Pattern）又称为工厂模式，也叫虚拟构造器（Virtual Constructor）模式或者多态工厂（Polymorphic Factory）模式，它属于类创建型模式。<br>它是对 <em style="color:#333;font-size:16px;"><u><a href="https://fanxiaocong.github.io/2019/09/09/简单工厂模式/">简单工厂模式</a></u></em> 的进一步抽象，将原先的核心工厂类拆分为抽象工厂父类以及其派生的工厂子类。工厂父类负责定义创建目标对象的公共接口，而工厂子类则负责生成具体的目标对象。这样做的目的是将目标类的实例化操作延迟到工厂子类中完成，即通过工厂子类来确定究竟应该实例化哪一个具体目标类。</p>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><p>工厂方法模式主要包含以下四个角色：</p>
+<ol>
+<li><h5 id="AbstractFactory"><a href="#AbstractFactory" class="headerlink" title="AbstractFactory"></a><strong>AbstractFactory</strong></h5><p style="font-size: 14px;">抽象工厂，负责定义创建目标对象的公共接口。</p></li>
+<li><h5 id="ConcreteFactory"><a href="#ConcreteFactory" class="headerlink" title="ConcreteFactory"></a><strong>ConcreteFactory</strong></h5><p style="font-size: 14px;">具体工厂，负责创建具体目标对象的实例。</p></li>
+<li><h5 id="AbstractTarget"><a href="#AbstractTarget" class="headerlink" title="AbstractTarget"></a><strong>AbstractTarget</strong></h5><p style="font-size: 14px;">抽象目标，目标对象的父类（接口），负责定义所有目标对象的公共属性和方法。</p></li>
+<li><h5 id="ConcreteTarget"><a href="#ConcreteTarget" class="headerlink" title="ConcreteTarget"></a><strong>ConcreteTarget</strong></h5><p style="font-size: 14px;">具体目标，被创建的实例对象，是 <code>AbstractTarget</code> 的子类。这里泛指具有一系列相同特性的类。</p>
+
+</li>
+</ol>
+<p><br></p>
+<img src="/2019/09/14/工厂方法模式/1.png" title="FactoryMethod">
+<h4 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h4><h5 id="抽象目标类"><a href="#抽象目标类" class="headerlink" title="抽象目标类"></a><strong>抽象目标类</strong></h5><p style="font-size: 14px;">所有被创建的目标实例的父类，用来声明一些共有的属性和方法。</p>
+
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  AbstractTarget.h</span></span><br><span class="line"><span class="comment">// </span></span><br><span class="line"></span><br><span class="line"><span class="meta">#import <span class="meta-string">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@protocol</span> <span class="title">AbstractTarget</span> &lt;<span class="title">NSObject</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@required</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  声明一个公共的接口，遵守了协议的类去实现它</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)doSomething;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<h5 id="抽象工厂类"><a href="#抽象工厂类" class="headerlink" title="抽象工厂类"></a><strong>抽象工厂类</strong></h5><p style="font-size: 14px;">所有被创建的工厂的父类，定义了创建目标对象的接口，由具体子类工厂来实现创建目标对象的代码逻辑。</p>
+
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  AbstractFactory.h</span></span><br><span class="line"><span class="comment">// </span></span><br><span class="line"></span><br><span class="line"><span class="meta">#import <span class="meta-string">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"><span class="meta">#import <span class="meta-string">"AbstractTarget.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@protocol</span> <span class="title">AbstractFactory</span> &lt;<span class="title">NSObject</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@required</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  定义一个返回 实现 AbstractTarget 协议对象的接口</span></span><br><span class="line"><span class="comment"> *  所有工厂子类必须实现这个接口，并在内部实现创建目标对象的逻辑</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">id</span>&lt;AbstractTarget&gt;)getTarget;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<h5 id="具体目标类"><a href="#具体目标类" class="headerlink" title="具体目标类"></a><strong>具体目标类</strong></h5><p style="font-size: 14px;">实现了抽象目标类里面声明的方法，将来会被对应的工厂类实例化。</p>
+
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  TargetA.m</span></span><br><span class="line"><span class="comment">// </span></span><br><span class="line"></span><br><span class="line"><span class="meta">#import <span class="meta-string">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"><span class="meta">#import <span class="meta-string">"AbstractTarget.h"</span></span></span><br><span class="line"><span class="meta">#import <span class="meta-string">"TargetA.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">TargetA</span> ()&lt;<span class="title">AbstractTarget</span>&gt;</span></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">TargetA</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#pragma mark - 💉 👀 AbstractTarget 👀</span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)doSomething</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"TargetA 的 doSomething 被调用"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<h5 id="具体工厂类"><a href="#具体工厂类" class="headerlink" title="具体工厂类"></a><strong>具体工厂类</strong></h5><p style="font-size: 14px;">实现了抽象工厂类里面声明的方法，负责创建对应的目标实例。</p>
+
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  FactoryA.m</span></span><br><span class="line"><span class="comment">// </span></span><br><span class="line"></span><br><span class="line"><span class="meta">#import <span class="meta-string">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"><span class="meta">#import <span class="meta-string">"AbstractFactory.h"</span></span></span><br><span class="line"><span class="meta">#import <span class="meta-string">"FactoryA.h"</span></span></span><br><span class="line"><span class="meta">#import <span class="meta-string">"TargetA.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">FactoryA</span> ()&lt;<span class="title">AbstractFactory</span>&gt;</span></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">FactoryA</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#pragma mark - 💉 👀 AbstractFactory 👀</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  创建目标对象 TargetA 的实例</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">id</span>&lt;AbstractTarget&gt;)getTarget</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> [TargetA new];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<h5 id="外部使用"><a href="#外部使用" class="headerlink" title="外部使用"></a><strong>外部使用</strong></h5><p style="font-size: 14px;">当需要使用目标对象时，先实例化一个对应的工厂对象，然后通过这个工厂实例来获取目标对象。以后如果需要引入新的目标对象，只需再添加一个新的工厂类，让这个工厂来负责新目标对象的创建，这样就不需要修改之前的代码了。</p>
+
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#import <span class="meta-string">"FactoryA.h"</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)test</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/// 创建具体工厂</span></span><br><span class="line">    <span class="keyword">id</span>&lt;AbstractFactory&gt; factory = [FactoryA new];</span><br><span class="line">    <span class="comment">/// 通过工厂对象来获取具体的目标对象</span></span><br><span class="line">    <span class="keyword">id</span>&lt;AbstractTarget&gt; target = [factory getTarget];</span><br><span class="line">    <span class="comment">/// 消费实例（调用目标实例的方法）</span></span><br><span class="line">    [target doSomething];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a><strong>优点</strong></h5><ol>
+<li><p style="font-size: 14px;">将对象的创建与使用进行了分离，在一定程度上降低了系统的耦合度。</p></li>
+<li><p style="font-size: 14px;">屏蔽了对象创建的过程，外部只需要使用对象，无须关心对象创建的具体细节。</p></li>
+<li><p style="font-size: 14px;">将目标对象的创建交给了具体的工厂类来负责，抽象的工厂类只负责定义创建目标对象的公共接口。这种抽象化的结果使这种结构可以在不修改原有工厂类的情况下引进新的目标对象，代码的可扩展性也就变得非常好，更加符合 <code>开闭原则</code> 。</p>
+
+</li>
+</ol>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a><strong>缺点</strong></h5><ol>
+<li><p style="font-size: 14px;">在添加新的产品时，需要编写新的目标对象类，还要提供与之对应的具体工厂类，系统中类的个数将成对增加，在一定程度上增加了系统的复杂度，而且有更多的类需要编译和运行，会给系统带来一些额外的开销。</p></li>
+</ol>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='/mp3/bg-music.mp3'></li>
+                    
+                        <li title='1' data-url='/mp3/melody.mp3'></li>
+                    
+                        <li title='2' data-url='/mp3/summer.mp3'></li>
+                    
+                        <li title='3' data-url='/mp3/M01.mp3'></li>
+                    
+                        <li title='4' data-url='/mp3/canon.mp3'></li>
+                    
+                        <li title='5' data-url='/mp3/spirited-away.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='true'
+        data-ci='c7d7fb319bad1d731692'
+        data-cs='e3c946cad16f7d988681439f07cac879bee42651'
+        data-r='fanxiaocong.github.io'
+        data-o='fanxiaocong'
+        data-a='fanxiaocong'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#引入"><span class="toc-number">1.</span> <span class="toc-text">引入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式介绍"><span class="toc-number">2.</span> <span class="toc-text">模式介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式结构"><span class="toc-number">3.</span> <span class="toc-text">模式结构</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#AbstractFactory"><span class="toc-number">3.1.</span> <span class="toc-text">AbstractFactory</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ConcreteFactory"><span class="toc-number">3.2.</span> <span class="toc-text">ConcreteFactory</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#AbstractTarget"><span class="toc-number">3.3.</span> <span class="toc-text">AbstractTarget</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ConcreteTarget"><span class="toc-number">3.4.</span> <span class="toc-text">ConcreteTarget</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#代码分析"><span class="toc-number">4.</span> <span class="toc-text">代码分析</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#抽象目标类"><span class="toc-number">4.1.</span> <span class="toc-text">抽象目标类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#抽象工厂类"><span class="toc-number">4.2.</span> <span class="toc-text">抽象工厂类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#具体目标类"><span class="toc-number">4.3.</span> <span class="toc-text">具体目标类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#具体工厂类"><span class="toc-number">4.4.</span> <span class="toc-text">具体工厂类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#外部使用"><span class="toc-number">4.5.</span> <span class="toc-text">外部使用</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#优点"><span class="toc-number">5.1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#缺点"><span class="toc-number">5.2.</span> <span class="toc-text">缺点</span></a></li></ol></li></ol>
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
