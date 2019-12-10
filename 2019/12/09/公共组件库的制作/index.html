@@ -1,0 +1,239 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>iOS组件化 - 公共组件库的制作 - 小小聪明屋</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fanxiaocong,"> 
+    <meta name="description" content="前言对于iOS开发者来说，在项目中使用别人写好的第三方库是非常普遍的一种现象，而通常我们会使用 CocoaPods 来管理项目所依赖的第三库。本文主要介绍如何将写好的代码制作成组件发布到 Cocoa,"> 
+    <meta name="author" content="fanxiaocong"> 
+    <link rel="alternative" href="atom.xml" title="小小聪明屋" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <link rel="stylesheet" href="/css/cover.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+</head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">小小聪明屋</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="https://fanxiaocong.github.io"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">iOS组件化 - 公共组件库的制作</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">iOS组件化 - 公共组件库的制作</h1>
+        <div class="stuff">
+            <span>十二月 09, 2019</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Cocoapods/">Cocoapods</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/iOS/">iOS</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/组件化/">组件化</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>对于iOS开发者来说，在项目中使用别人写好的第三方库是非常普遍的一种现象，而通常我们会使用 <code>CocoaPods</code> 来管理项目所依赖的第三库。本文主要介绍如何将写好的代码制作成组件发布到 <code>CocoaPods</code> 上，让别的开发人员可以使用。</p>
+<blockquote>
+<p><em style="color:darkgray;font-size:14px;">博文中引用的 <u><a href="https://github.com/fanxiaocong/BlobPublicComponentDemo" target="_blank" rel="noopener">Demo</a></u> 已经上传到 github 上面了，有需要的小伙伴可以去下载</em></p>
+</blockquote>
+<h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><h5 id="索引文件"><a href="#索引文件" class="headerlink" title="索引文件"></a><strong>索引文件</strong></h5><p>也叫描述文件，用来描述组件信息的文件。每个组件库都会有一个描述文件与之对应，以 <code>组件名.podspec</code> 的文件形式存在，一般与组件源码所在的目录同级。索引文件中记录了组件的名称、作者、版本号、源码地址、系统要求等很多与组件相关的配置信息，<code>Cocoapods</code> 就是通过这些信息来查找我们组件的源码的。</p>
+<h5 id="索引库"><a href="#索引库" class="headerlink" title="索引库"></a><strong>索引库</strong></h5><p>存放组件索引（描述）文件的仓库。<code>CocoaPods</code> 并不会存放组件的源码，它只是管理组件的 <code>podspec</code>（描述）文件。当我们发布完组件后，<code>CocoaPods</code> 就会保存这个 <code>podspec</code> 文件（对于公共组件，<code>CocoaPods</code> 在 github 上有一个<u><a href="https://github.com/CocoaPods/Specs" target="_blank" rel="noopener"> 索引库 </a></u>，它里面保存了所有已发布的组件的描述信息的文件）。当我们使用 <code>CocoaPods</code> 来搜索第三方组件时，实际上就是搜索这个 <code>podspec</code> 文件，它会根据里面的字段信息来查找组件的源码，下载并安装到我们的项目中。</p>
+<h4 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h4><p>第一次发布组件时，需要先注册一个 <code>CocoaPods</code> 账号。注册成功后可以一直使用，以后就不需要再注册了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 注册</span></span><br><span class="line">pod trunk register 邮箱 用户名</span><br></pre></td></tr></table></figure>
+<p>执行完上面的命令后，<code>CocoaPods</code> 会发一个确认邮件到你的邮箱上，你需要登录邮箱进行确认并完成注册。</p>
+<p>可以使用 <code>pod trunk me</code> 来查看你的注册信息<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">➜ ~ pod trunk me</span><br><span class="line"></span><br><span class="line">- <span class="symbol">Name:</span>     用户名</span><br><span class="line">- <span class="symbol">Email:</span>    xxx@xxx.com</span><br><span class="line">- <span class="symbol">Since:</span>    February <span class="number">28</span>th, <span class="number">2017</span> <span class="number">19</span><span class="symbol">:</span><span class="number">27</span></span><br><span class="line">- <span class="symbol">Pods:</span>     None</span><br><span class="line">- <span class="symbol">Sessions:</span></span><br><span class="line">  - September <span class="number">19</span>th, <span class="number">2017</span> <span class="number">21</span><span class="symbol">:</span><span class="number">52</span> - April <span class="number">11</span>th, <span class="number">2020</span> <span class="number">03</span><span class="symbol">:</span><span class="number">35</span>. <span class="symbol">IP:</span><span class="number">183.14</span>.<span class="number">29.27</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h4><p>注册完后就可以开始制作组件库了。</p>
+<h5 id="准备组件"><a href="#准备组件" class="headerlink" title="准备组件"></a><strong>准备组件</strong></h5><ol>
+<li><p>创建测试工程<br>其实测试工程的创建对于组件的发布没有必然关系，但是这里还是建议为自己的组件创建一个测试工程。这样方便以后组件的测试、升级和维护。</p>
+<p> 这里有两种方式来创建测试工程：</p>
+<p> I. 通过 Xcode 来创建项目，并在项目根目录下创建 <code>podspec</code> 文件。</p>
+ <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用 CocoaPods 提供的命令创建 podspec 文件</span></span><br><span class="line">pod spec create BlobPublicComponentDemo</span><br></pre></td></tr></table></figure>
+<p> II. 通过 <code>CocoaPods</code> 提供的命令来创建项目。</p>
+ <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建测试工程</span></span><br><span class="line">pod lib create BlobPublicComponentDemo</span><br></pre></td></tr></table></figure>
+<p> 推荐使用第二种方式来创建测试工程，因为这样创建出来的工程已经帮我们生成了 <code>podspec</code> 的模板文件，而且也添加了 git 管理以及 pod 环境。</p>
+<p> 这里使用第二种方式来创建工程。</p>
+<p> 当命令执行完毕后，会有一些选项供我们选择。请根据组件的实际情况，选择对应的选项。 </p>
+ <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 选择平台</span></span><br><span class="line">What platform <span class="keyword">do</span> you want to use?? [ iOS / macOS ]</span><br><span class="line">&gt; ios</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 选择语言</span></span><br><span class="line">What language <span class="keyword">do</span> you want to use?? [ Swift / ObjC ]</span><br><span class="line">&gt; objc</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 是否需要为你的组件库创建一个测试工程</span></span><br><span class="line">Would you like to <span class="keyword">include</span> a demo application with your library? [ Yes / No ]</span><br><span class="line">&gt; yes</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 选择测试框架</span></span><br><span class="line">Which testing frameworks will you use? [ Specta / Kiwi / None ]</span><br><span class="line">&gt; none</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 是否需要 UI 测试</span></span><br><span class="line">Would you like to <span class="keyword">do</span> view based testing? [ Yes / No ]</span><br><span class="line">&gt; no</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 测试工程类名的前缀</span></span><br><span class="line"> What is your <span class="class"><span class="keyword">class</span> <span class="title">prefix?</span></span></span><br><span class="line">&gt; XC</span><br><span class="line"> </span><br><span class="line">Running pod install on your new library.</span><br></pre></td></tr></table></figure>
+<p> 当上面的选择执行完毕后，会在本地创建一个名为 <code>BlobPublicComponentDemo</code> 的项目，而且会帮我们自动打开此项目。</p>
+ <div style="width:30%;"><br> <img src="/2019/12/09/公共组件库的制作/1.jpg" title="项目结构图"><br> </div>
+
+<p> Pods 中的 <code>Development Pods</code> 目录下的 <code>BlobPublicComponentDemo</code> 目录就是我们组件的根目录。</p>
+</li>
+<li><p>编写组件代码<br>请根据实际情况来编写组件的核心业务功能代码。源码放在组件根目录底下的 <code>Classes</code> 目录里面，资源文件放在组件根目录底下的 <code>Assets</code> 目录里面。这里不做过多概述。</p>
+</li>
+<li><p>关联远程仓库<br>在 github（gitlab、码云等第三方托管平台）上创建一个公共的仓库，然后关联上本地仓库。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 关联远程仓库</span></span><br><span class="line">git remote add origin <span class="string">'远程仓库地址'</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h5 id="编写-podspec-文件"><a href="#编写-podspec-文件" class="headerlink" title="编写 podspec 文件"></a><strong>编写 podspec 文件</strong></h5><p>当组件准备完毕后，就可以开始编写 <code>podspec</code> 文件了。<br>这里只介绍 <code>podspec</code> 文件中最基本的字段信息。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">Pod::Spec.new <span class="keyword">do</span> <span class="params">|s|</span></span><br><span class="line"><span class="comment"># 组件库的名称。将来发布成功后，可以通过 CocoaPods 来搜索这个名字</span></span><br><span class="line">s.name             = <span class="string">'BlobPublicComponentDemo'</span></span><br><span class="line"><span class="comment"># 组件库的版本号。一般和远程仓库地址的 tag 标签保持一致</span></span><br><span class="line">s.version          = <span class="string">'0.0.1'</span></span><br><span class="line"><span class="comment"># 组件库的简介。将来组件被搜索出来后会显示这个简介</span></span><br><span class="line">s.summary          = <span class="string">'公共组件测试'</span></span><br><span class="line"><span class="comment"># 组件库的详细描述，字符长度需要比上面的简介长，不然验证的时候会有警告</span></span><br><span class="line">s.description      = <span class="string">&lt;&lt;-DESC</span></span><br><span class="line"><span class="string">DESC</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 组件对应的远程仓库的主页，同样会在搜索的时候显示出来</span></span><br><span class="line">s.homepage         = <span class="string">'https://github.com/fanxiaocong/BlobPublicComponentDemo'</span></span><br><span class="line"><span class="comment"># 许可证。这里使用默认的 MIT license</span></span><br><span class="line">s.license          = &#123; <span class="symbol">:type</span> =&gt; <span class="string">'MIT'</span>, <span class="symbol">:file</span> =&gt; <span class="string">'LICENSE'</span> &#125;</span><br><span class="line"><span class="comment"># 作者信息（名字、邮箱）</span></span><br><span class="line">s.author           = &#123; <span class="string">'fanxiaocong'</span> =&gt; <span class="string">'1016697223@qq.com'</span> &#125;</span><br><span class="line"><span class="comment"># 组件对应的远程仓库地址，将来 CocoaPods 就是通过这个地址来找到我们的组件的源码</span></span><br><span class="line"><span class="comment"># CocoaPods 拉取的是组件远程仓库中 tag 标签处的代码，所以在验证 podsepc 文件之前必须保证在远程仓库上打好 tag 了</span></span><br><span class="line">s.source           = &#123; <span class="symbol">:git</span> =&gt; <span class="string">'https://github.com/fanxiaocong/BlobPublicComponentDemo.git'</span>, <span class="symbol">:tag</span> =&gt; s.version.to_s &#125;</span><br><span class="line"><span class="comment"># 组件所要求的系统最低版本</span></span><br><span class="line">s.ios.deployment_target = <span class="string">'9.0'</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 组件源码的路径</span></span><br><span class="line"><span class="comment"># 它是相对路径，相对于 podspec 文件的路径</span></span><br><span class="line"><span class="comment"># 多个路径使用 , 来分隔。如：s.source_files = '路径1','路径2'</span></span><br><span class="line"><span class="comment"># 一般只包含源码文件（.h .m .mm）</span></span><br><span class="line"><span class="comment"># ** 表示指定路径下的所有目录</span></span><br><span class="line"><span class="comment"># *  表示指定路径下的所有文件   *.&#123;h,m&#125; 表示所有以 .h 或 .m 结尾的文件</span></span><br><span class="line"><span class="comment"># BlobPublicComponentDemo/Classes/**/*     表示 Classes 目录中的所有子目录里面的文件，不包括 Classes 目录里面的文件</span></span><br><span class="line"><span class="comment"># BlobPublicComponentDemo/Classes/*.&#123;h,m&#125;  表示 Classes 目录中的所有 .h 和 .m 文件</span></span><br><span class="line">s.source_files = <span class="string">'BlobPublicComponentDemo/Classes/*.&#123;h,m&#125;'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 资源文件的路径</span></span><br><span class="line"><span class="comment"># 图片、xib、storyboard、json、xml、html、txt、bundle 等文件</span></span><br><span class="line"><span class="comment"># 以键值对的形式来匹配资源路径</span></span><br><span class="line"><span class="comment"># 键：BlobPublicComponentDemo，bundle名，在组件中必须通过加载 bundle 的方式来加载这些资源文件，具体参考 Demo 源码</span></span><br><span class="line"><span class="comment"># 值：资源文件的路径所组件的数组，也是相对于 podspec 文件路径</span></span><br><span class="line">s.resource_bundles = &#123;</span><br><span class="line">    <span class="string">'BlobPublicComponentDemo'</span> =&gt; [<span class="string">'BlobPublicComponentDemo/Assets/*.png'</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 组件所依赖的系统的 framework 框架，多个使用 , 隔开</span></span><br><span class="line">s.frameworks = <span class="string">'UIKit'</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 如果组件需要使用到系统库，则可以在此配置</span></span><br><span class="line"><span class="comment"># s.libraries = 'sqlite3.0', 'libz.tbd'</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 组件依赖的其它第三方库，必须是已经发布到 CocoaPods 上的库</span></span><br><span class="line">s.dependency <span class="string">'XCMacros'</span>, <span class="string">'~&gt; 1.0.4'</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 如果组件需要用到本地（非系统以及其它已发布到 CocoaPods）的静态库，则可以通过这个字段来配置路径，多个路径之间使用 , 隔开</span></span><br><span class="line"><span class="comment"># s.vendored_libraries = 'BlobPublicComponentDemo/Classes/xxx/xxx.a'</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 如果组件需要用到本地（非系统以及其它已发布到 CocoaPods）的 framework 库，则可以通过这个字段来配置路径，多个路径之间使用 , 隔开</span></span><br><span class="line"><span class="comment"># s.vendored_frameworks = 'BlobPublicComponentDemo/Classes/xxx/xxx.framework'</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>编写完 <code>podspec</code> 文件后，最好可以在工程中引入组件库，测试一下自己的组件能否被正常使用。</p>
+<p>首先进入到 <code>Podfile</code> 文件所在的那一级目录（Example 目录下）。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> xxx/Example</span><br></pre></td></tr></table></figure></p>
+<p>然后执行 <code>pod install</code>，完成后就可以在测试工程中引入组件中的类。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod install</span><br></pre></td></tr></table></figure></p>
+<p>当项目能够正常运行并且测试通过后，就可以将代码提交到远程仓库了。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加到暂存区</span></span><br><span class="line">git add .</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 提供到本地仓库</span></span><br><span class="line">git commit -m <span class="string">'提交代码'</span></span><br><span class="line">    </span><br><span class="line"><span class="comment"># 推送到远程仓库</span></span><br><span class="line">git push origint master</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 本地打上标签，标签号要与组件的版本号保持一致</span></span><br><span class="line">git tag 0.0.1</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 推送标签到远程仓库</span></span><br><span class="line">git push --tags</span><br></pre></td></tr></table></figure></p>
+<h5 id="推送-podspec-文件"><a href="#推送-podspec-文件" class="headerlink" title="推送 podspec 文件"></a><strong>推送 podspec 文件</strong></h5><p>推送之前请先确保 <code>podspec</code> 文件书写正确，并且可以验证通过。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 本地验证 podspec 文件是否可以通过，后面可以添加选项</span></span><br><span class="line"><span class="comment"># 选项：</span></span><br><span class="line"><span class="comment">#  --verbose   查看详细的验证信息，可以跟踪到警告以及错误的日志</span></span><br><span class="line"><span class="comment">#  --allow-warnings    允许警告。默认情况下只要存在警告就不能验证通过，添加这个选项可以忽略掉所有警告</span></span><br><span class="line"><span class="comment">#  --use-libraries     如果组件中使用了静态库，则需要添加此选项，否则验证不会通过</span></span><br><span class="line"><span class="comment">#  --source '索引库地址'    如果组件中依赖了其它的私有组件库，就需要将对应的私有索引库地址添加进来（此选项一般用于私有组件库，公共组件库不需要）</span></span><br><span class="line">pod lib lint xxx.spec 选项<span class="number">1</span> 选项<span class="number">2</span> </span><br><span class="line"></span><br><span class="line"><span class="comment"># 本地和远程验证 podspec 文件是否可以通过，选项同上（一般公共组件库通过这个命令来验证）</span></span><br><span class="line">pod spec lint xxx.spec 选项<span class="number">1</span> 选项<span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>验证通过后，就可以将 <code>podspec</code> 文件推送到 <code>CocoaPods</code> 的索引库中。<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 推送 podspec 文件，必要的选项同样需要添加</span></span><br><span class="line">pod trunk push xxx.spec 选项<span class="number">1</span> 选项<span class="number">2</span></span><br></pre></td></tr></table></figure></p>
+<p>发布成功后，别人就可以通过 <code>Cocoapods</code> 搜索到我们发布的组件库。<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod search xxx</span><br></pre></td></tr></table></figure></p>
+<p>第一次发布组件时，组件可能会搜索不到，会有延迟，一般一到两天左右。如果还是搜索不到，建议先删除掉 <code>Cocoapods</code> 缓存在本地的索引文件，然后再搜索。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm ~/Library/Caches/CocoaPods/search_index.json</span><br></pre></td></tr></table></figure></p>
+<h5 id="更新维护"><a href="#更新维护" class="headerlink" title="更新维护"></a><strong>更新维护</strong></h5><p>后期当我们给组件库增加了新的功能或修复了某些 Bug，就需要给组件库升级，具体是以下几步：</p>
+<ol>
+<li>修改 <code>podspec</code> 文件中的版本号。</li>
+<li>提交代码并打上标签（标签号与 <code>podspec</code> 文件中的版本号保持一致）。</li>
+<li>验证并推送 <code>podspec</code> 文件。</li>
+</ol>
+<h4 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h4><h5 id="Podfile"><a href="#Podfile" class="headerlink" title="Podfile"></a><strong>Podfile</strong></h5><p>项目中配置第三方组件的文件。项目通过 <code>Cocoapods</code> 初始化后，会在项目的根目录底下生成一个 <code>Podfile</code> 文件。在这个文件中我们可以编写项目所依赖的组件名称及其版本号，然后执行 <code>pod install</code> 命令，就可以将这些组件下载并安装到我们的项目中了。</p>
+<h5 id="Podfile-lock"><a href="#Podfile-lock" class="headerlink" title="Podfile.lock"></a><strong>Podfile.lock</strong></h5><p>当第一次执行 <code>pod install</code> 命令后，<code>Cocoapods</code> 除了会安装添加在 <code>Podfile</code> 文件中组件外，还会在本地生成一个 <code>Podfile.lock</code> 的文件。这个文件里面记录了当前项目中所有已经安装过的组件的名称及其对应的版本号，后续再通过 <code>pod install</code> 命令来安装新组件的时候，就会过滤掉此文件中已经记录过的组件，只会安装新加入的组件，并且会将新组件的名称及版本号添加到 <code>Podfile.lock</code> 文件里面。因此，此文件可以用来做版本管理，当团队协作开发时，只要大家的 <code>Podfile.lock</code> 文件相同，就可以保证项目所依赖的版本库是一致的。</p>
+<h5 id="pod-install"><a href="#pod-install" class="headerlink" title="pod install"></a><strong>pod install</strong></h5><p>根据 <code>Podfile</code> 文件里面的内容下载安装组件。第一次执行此命令时，会根据 <code>Podfile</code> 文件里面的组件名称和版本号来安装对应的组件，如果没有指定版本号，则会安装组件最新发布的那个版本，同时还会生成一个 <code>Podfile.lock</code> 的文件，并将已经安装的组件的名称和版本信息记录在 <code>Podfile.lock</code> 文件中。 后续再执行 <code>pod install</code> 命令时，不管是添加新组件还是移除已存在的组件，都不会对 <code>Podfile.lock</code> 中记录的组件的进行更新，即使这个组件已经发布了新的版本。<br>作用：</p>
+<ol>
+<li>安装新组件</li>
+<li>删除已有组件</li>
+</ol>
+<h5 id="pod-update"><a href="#pod-update" class="headerlink" title="pod update"></a><strong>pod update</strong></h5><p>此命令是用来更新组件库的。不论 <code>Podfile</code> 文件中有没有指定组件版本号，或者 <code>Podfile.lock</code> 文件中是否记录过组件，它都会直接去索引库（本地或远程）中获取组件的最新版本进行安装，并且会将最新的版本号写入 <code>Podfile.lock</code> 文件中。</p>
+<ol>
+<li><p>不带任何选项，它会从 <code>github</code> 上的远程索引库中获取最新的版本进行更新。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 更新至与远程索引库相同的版本</span></span><br><span class="line">pod update</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>选项 <code>--no-repo-update</code>，它会从缓存在本地的索引库中获取最新的版本进行更新。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 更新至与本地索引库相同的版本</span></span><br><span class="line">pod update --no-repo-update</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='/mp3/bg-music.mp3'></li>
+                    
+                        <li title='1' data-url='/mp3/melody.mp3'></li>
+                    
+                        <li title='2' data-url='/mp3/summer.mp3'></li>
+                    
+                        <li title='3' data-url='/mp3/M01.mp3'></li>
+                    
+                        <li title='4' data-url='/mp3/canon.mp3'></li>
+                    
+                        <li title='5' data-url='/mp3/spirited-away.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='true'
+        data-ci='c7d7fb319bad1d731692'
+        data-cs='e3c946cad16f7d988681439f07cac879bee42651'
+        data-r='fanxiaocong.github.io'
+        data-o='fanxiaocong'
+        data-a='fanxiaocong'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#介绍"><span class="toc-number">2.</span> <span class="toc-text">介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#索引文件"><span class="toc-number">2.1.</span> <span class="toc-text">索引文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#索引库"><span class="toc-number">2.2.</span> <span class="toc-text">索引库</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#注册"><span class="toc-number">3.</span> <span class="toc-text">注册</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#步骤"><span class="toc-number">4.</span> <span class="toc-text">步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#准备组件"><span class="toc-number">4.1.</span> <span class="toc-text">准备组件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#编写-podspec-文件"><span class="toc-number">4.2.</span> <span class="toc-text">编写 podspec 文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#推送-podspec-文件"><span class="toc-number">4.3.</span> <span class="toc-text">推送 podspec 文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#更新维护"><span class="toc-number">4.4.</span> <span class="toc-text">更新维护</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Tips"><span class="toc-number">5.</span> <span class="toc-text">Tips</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Podfile"><span class="toc-number">5.1.</span> <span class="toc-text">Podfile</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Podfile-lock"><span class="toc-number">5.2.</span> <span class="toc-text">Podfile.lock</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pod-install"><span class="toc-number">5.3.</span> <span class="toc-text">pod install</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pod-update"><span class="toc-number">5.4.</span> <span class="toc-text">pod update</span></a></li></ol></li></ol>
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
