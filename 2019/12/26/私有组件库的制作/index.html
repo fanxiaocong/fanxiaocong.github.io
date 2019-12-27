@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>iOS组件化 - 私有组件库的制作 - 小小聪明屋</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fanxiaocong,"> 
+    <meta name="description" content="前言前面我们已经介绍过公有的组件库的制作，知道了如何编写 podspec 文件以及怎样发布已经写好的组件。其实私有组件库的制作流程和公有库的基本一致，区别只是在于组件源码的仓库和索引仓库的访问权限不,"> 
+    <meta name="author" content="fanxiaocong"> 
+    <link rel="alternative" href="atom.xml" title="小小聪明屋" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <link rel="stylesheet" href="/css/cover.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+</head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">小小聪明屋</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="https://fanxiaocong.github.io"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">iOS组件化 - 私有组件库的制作</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">iOS组件化 - 私有组件库的制作</h1>
+        <div class="stuff">
+            <span>十二月 26, 2019</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Cocoapods/">Cocoapods</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/iOS/">iOS</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/组件化/">组件化</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>前面我们已经介绍过公有的组件库的制作，知道了如何编写 <code>podspec</code> 文件以及怎样发布已经写好的组件。其实私有组件库的制作流程和公有库的基本一致，区别只是在于组件源码的仓库和索引仓库的访问权限不同。 对于公有组件库而言，组件源码的地址是公开，索引仓库也是公开的（存放于 github 上），所以我们都可以访问。而私有组件库的源码存放在私有仓库中，只有开放了权限的人才可以访问，还有就是私有组件的索引仓库（私有）需要我们自己来创建，别人是搜索不到我们发布的私有组件。</p>
+<blockquote>
+<p><em style="color:darkgray;font-size:14px;">博文中引用的 <u><a href="https://github.com/fanxiaocong/BlobPrivateComponentDemo" target="_blank" rel="noopener">Demo</a></u> 已经上传到 github 上面了，有需要的小伙伴可以去下载</em><br><em style="color:darkgray;font-size:14px;"> 注：私有组件库的制作与公有库的制作有很多步骤是相同的，这里将不做过多的赘述，不清楚的小伙伴可以点此查看 <em style="color:#333;font-size:16px;"><a href="https://fanxiaocong.github.io/2019/12/09/公共组件库的制作/">公共组件库的制作</a></em>。</em></p>
+</blockquote>
+<h4 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h4><h5 id="准备组件"><a href="#准备组件" class="headerlink" title="准备组件"></a><strong>准备组件</strong></h5><ol>
+<li><p>创建测试工程</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建测试工程</span></span><br><span class="line">pod lib create BlobPrivateComponentDemo</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编写组件代码</p>
+</li>
+<li>关联远程仓库<br>在 gitlab（或其它第三方托管平台）上创建一个<strong>私有</strong>的仓库，然后关联上本地仓库。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 关联远程仓库</span></span><br><span class="line">git remote add origin <span class="string">'远程仓库地址'</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h5 id="编写-podspec-文件"><a href="#编写-podspec-文件" class="headerlink" title="编写 podspec 文件"></a><strong>编写 podspec 文件</strong></h5><p>podspec 文件的编写与公有组件基本一致，这里不再赘述。</p>
+<h5 id="创建索引仓库"><a href="#创建索引仓库" class="headerlink" title="创建索引仓库"></a><strong>创建索引仓库</strong></h5><p>在 gitlab（或其它第三方托管平台）上创建一个<strong>私有</strong>的仓库（注意与组件源码的仓库地址区分），此仓库是用来存放我们将要推送的 <code>podspec</code> 文件的。对于公有组件，该仓库由 <code>Cocoapods</code> 来创建，我们无需关心。<br>当索引仓库创建完毕后，需要按照 <code>Cocoapods</code> 规定的方式把它添加到本地，可以使用以下两种方式：</p>
+<ol>
+<li><p>通过使用 <code>Cocoapods</code> 提供的命令 <code>pod repo add</code> ，将索引仓库添加到本地。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># PrivateSpecRepo 是本地索引库的名称，可以随意命名</span></span><br><span class="line">pod repo add PrivateSpecRepo <span class="string">'远程索引库地址'</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过使用 <code>git</code> 命令把索引仓库 <code>clone</code> 到本地。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone <span class="string">'远程索引库地址'</span> ~<span class="regexp">/.cocoapods/repos</span><span class="regexp">/</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这两种方式的本质是一样的，都是将远程的索引仓库 <code>clone</code> 到 <code>~/.cocoapods/repos/</code> 目录底下，将来 <code>Cocoapods</code> 检索的时候，就是从这个目录底下进行查找的。</p>
+<p>当索引库添加到本地后，可以使用 <code>pod repo</code> 命令来查看已经创建的索引仓库。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">➜ ~ pod repo</span><br><span class="line"></span><br><span class="line">PrivateSpecRepo</span><br><span class="line">- Type: git (master)</span><br><span class="line">- URL:  http://xxx/PrivateSpecRepo.git</span><br><span class="line">- Path: /Users/fanxiaocong/.cocoapods/repos/PrivateSpecRepo</span><br><span class="line"></span><br><span class="line">master</span><br><span class="line">- Type: git (master)</span><br><span class="line">- URL:  https://github.com/CocoaPods/Specs.git</span><br><span class="line">- Path: /Users/fanxiaocong/.cocoapods/repos/master</span><br></pre></td></tr></table></figure></p>
+<p>其中 <code>master</code> 仓库是 <code>Cocoapods</code> 的索引仓库，它在我们安装 <code>Cocoapods</code> 的时候就已经帮我们 <code>clone</code> 下来了。<code>PrivateSpecRepo</code> 仓库则是我们创建的私有索引仓库。</p>
+<h5 id="推送-podspec-文件"><a href="#推送-podspec-文件" class="headerlink" title="推送 podspec 文件"></a><strong>推送 podspec 文件</strong></h5><p>当组件、私有索引仓库以及 <code>podspec</code> 文件准备完毕后，就可以验证并推送 <code>podspec</code> 文件了。</p>
+<p>验证 <code>podspec</code> 文件。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 本地验证 podspec 文件</span></span><br><span class="line"><span class="comment"># 选项：</span></span><br><span class="line"><span class="comment">#  --verbose   查看详细的验证信息，可以跟踪到警告以及错误的日志</span></span><br><span class="line"><span class="comment">#  --allow-warnings    允许警告。默认情况下只要存在警告就不能验证通过，添加这个选项可以忽略掉所有警告</span></span><br><span class="line"><span class="comment">#  --use-libraries     如果组件中使用了静态库，则需要添加此选项，否则验证不会通过</span></span><br><span class="line"><span class="comment">#  --source '索引库地址'    </span></span><br><span class="line"><span class="comment">#       如果组件中依赖了其它的私有组件库，就需要将对应的私有索引库地址添加进来，否则验证的时候会提示找不到所依赖的组件。</span></span><br><span class="line"><span class="comment">#       注意：当组件中同时依赖了私有组件库和公有组件库，则需要将两个索引源（Cocoapods 和 私有的索引库地址）都加上。</span></span><br><span class="line">pod lib lint xxx.spec --<span class="built_in">source</span>=https://github.com/CocoaPods/Specs.git,http://xxx/PrivateSpecRepo.git --verbose --allow-warnings --use-libraries</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 本地和远程验证 podspec 文件是否可以通过，选项同上</span></span><br><span class="line">pod spec lint xxx.spec 选项1 选项2</span><br></pre></td></tr></table></figure></p>
+<p>推送 <code>podspec</code> 文件到私有的索引库中。<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 推送 podspec 文件</span></span><br><span class="line">pod repo push PrivateSpecRepo xxx.spec</span><br></pre></td></tr></table></figure></p>
+<h4 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h4><ol>
+<li>当我们在项目中使用私有组件时，需要在 <code>Podfile</code> 文件中把对应的私有索引仓库地址加上，如果还使用到了公有库，还需要把 <code>Cocoapods</code> 的索引库地址也加上。<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line"><span class="comment"># 私有索引库地址</span></span><br><span class="line">source <span class="string">'http://xxx/PrivateSpecRepo.git'</span></span><br><span class="line"><span class="comment"># Cocoapods 索引库地址</span></span><br><span class="line">source <span class="string">'https://github.com/CocoaPods/Specs.git'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 私有组件</span></span><br><span class="line">pod <span class="string">'xxx'</span>, <span class="string">'~&gt; 0.0.1'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 公共组件</span></span><br><span class="line">pod <span class="string">'SDWebImage'</span>, <span class="string">'~&gt; 5.3.0'</span> </span><br><span class="line"></span><br><span class="line">target <span class="string">'BlobPrivateComponent_Example'</span> <span class="keyword">do</span></span><br><span class="line">    pod <span class="string">'BlobPrivateComponent'</span>, <span class="symbol">:path</span> =&gt; <span class="string">'../'</span></span><br><span class="line">    target <span class="string">'BlobPrivateComponent_Tests'</span> <span class="keyword">do</span></span><br><span class="line">        inherit! <span class="symbol">:search_paths</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='/mp3/bg-music.mp3'></li>
+                    
+                        <li title='1' data-url='/mp3/melody.mp3'></li>
+                    
+                        <li title='2' data-url='/mp3/summer.mp3'></li>
+                    
+                        <li title='3' data-url='/mp3/M01.mp3'></li>
+                    
+                        <li title='4' data-url='/mp3/canon.mp3'></li>
+                    
+                        <li title='5' data-url='/mp3/spirited-away.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='true'
+        data-ci='c7d7fb319bad1d731692'
+        data-cs='e3c946cad16f7d988681439f07cac879bee42651'
+        data-r='fanxiaocong.github.io'
+        data-o='fanxiaocong'
+        data-a='fanxiaocong'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#步骤"><span class="toc-number">2.</span> <span class="toc-text">步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#准备组件"><span class="toc-number">2.1.</span> <span class="toc-text">准备组件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#编写-podspec-文件"><span class="toc-number">2.2.</span> <span class="toc-text">编写 podspec 文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#创建索引仓库"><span class="toc-number">2.3.</span> <span class="toc-text">创建索引仓库</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#推送-podspec-文件"><span class="toc-number">2.4.</span> <span class="toc-text">推送 podspec 文件</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#注意点"><span class="toc-number">3.</span> <span class="toc-text">注意点</span></a></li></ol>
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
