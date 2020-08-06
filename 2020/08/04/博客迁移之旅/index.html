@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>博客迁移之旅 - 小小聪明屋</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fanxiaocong,"> 
+    <meta name="description" content="前言之前博客是直接托管到 Github 上的，由于它不是很稳定经常挂掉，而且访问速度也很慢，所以后面就干脆把它部署到自己的服务器上，顺便记录一下整个部署的流程，方便以后查看。
+关于服务器服务器我选的,"> 
+    <meta name="author" content="fanxiaocong"> 
+    <link rel="alternative" href="atom.xml" title="小小聪明屋" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <link rel="stylesheet" href="/css/cover.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+</head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">小小聪明屋</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="https://fanxiaocong.github.io"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">博客迁移之旅</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">博客迁移之旅</h1>
+        <div class="stuff">
+            <span>八月 04, 2020</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Blob/">Blob</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/笔记/">笔记</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>之前博客是直接托管到 <code>Github</code> 上的，由于它不是很稳定经常挂掉，而且访问速度也很慢，所以后面就干脆把它部署到自己的服务器上，顺便记录一下整个部署的流程，方便以后查看。</p>
+<h4 id="关于服务器"><a href="#关于服务器" class="headerlink" title="关于服务器"></a>关于服务器</h4><p>服务器我选的是腾讯云（主要是新用户有折扣，比较便宜，之前买过阿里云的，就不是新用户了 🤦‍♂️），个人服务器，考虑到服务器主要是用作个人博客（静态页面），没啥并发量，对性能没有太高的要求，所以就选了一个最低配置。</p>
+<h5 id="服务器配置清单"><a href="#服务器配置清单" class="headerlink" title="服务器配置清单"></a><strong>服务器配置清单</strong></h5><img src="/2020/08/04/博客迁移之旅/server-config.jpg" title="服务器配置清单">
+<h4 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h4><p>整个博客的发布流程分为服务端与客户端（本地）两个部分，后面的步骤会具体描述，这里先说明一下整体的流程。</p>
+<ol>
+<li>创建博客的远程仓库</li>
+<li>本地安装配置 hexo</li>
+<li>推送本地生成的静态页面到远程仓库</li>
+<li>服务端获取最新博客文件并部署上线<br><br></li>
+</ol>
+<p>这里可能会产生一个疑问：博客的远程仓库在哪创建？是 <code>Github</code> 还是在服务器上。为了解答这个疑问，下面先简单介绍下这两种方式：</p>
+<h5 id="远程仓库建在-Github-上"><a href="#远程仓库建在-Github-上" class="headerlink" title="远程仓库建在 Github 上"></a><strong>远程仓库建在 Github 上</strong></h5><p>当需要发布博客时，只要登录到服务器，通过 <code>git</code> 工具去仓库上拉取最新的文件，然后部署上线即可。如果需要集成自动部署功能（在本地执行完 <code>hexo deploy</code> 命令后，服务器能够自动去拉取最新静态页进行部署，不用再登录服务器手动操作），则需要使用到 <code>Github</code> 给我们提供的 <code>Webhooks</code> 勾子，来实现对仓库 <code>push</code> 事件的监听。</p>
+<h5 id="远程仓库建在服务器上"><a href="#远程仓库建在服务器上" class="headerlink" title="远程仓库建在服务器上"></a><strong>远程仓库建在服务器上</strong></h5><p>发布博客时，服务器可以直接拿到最新的静态页进行部署，如果在自动部署，可以使用 <code>git</code> 工具给我们提供的 <code>post-receive</code> 钩子，来实现对仓库 <code>push</code> 事件的监听。<br><br><br>比较一下上述的两种方式，我个人是推荐第二种，即：在服务器上创建博客的远程仓库，Why？</p>
+<p>在集成自动部署时，如果仓库建在 <code>Github</code> 上，则需要在 <code>Github</code> 中新增一个 <code>webhook</code> 钩子，并配置好回调地址，当仓库监测到 <code>push</code> 事件后，会调用这个回调地址，来通知服务器进行后续的操作。</p>
+<p>服务器端需要完成以下四件事：</p>
+<blockquote>
+<ol>
+<li>提供一个服务来给 <code>Github</code> 调用，也就是 <code>webhook</code> 上配置的的回调地址所对应的服务。</li>
+<li>安装 <code>git</code> 工具，然后创建一个博客仓库与远程仓库进行关联，用来拉取远程仓库中的博客文件。</li>
+<li>当服务被调用时，需要使用 <code>git pull</code> 命令去拉取最新的博客文件。</li>
+<li>在获取到最新的博客文件后，通过 <code>nginx</code> 反向代理博客静态页（部署）。</li>
+</ol>
+</blockquote>
+<img src="/2020/08/04/博客迁移之旅/github-flow.jpg" title="流程图">
+<p> 这里涉及到服务器与 <code>Github</code> 的通信，而 <code>Github</code> 又不是很稳定，可能会有信息丢失的问题，导致博客不能被即时部署。<br> 如果是将远程仓库建在服务器上，当我们提交完最新的博客页后，服务器可以直接通过 <code>git</code> 工具的 <code>post-receive</code> 钩子文件，来监听本次的 <code>push</code> 事件，从而进行手续的操作。另外，由于这些操作都是在服务器内部完成的，不需要与外部进行通信，所以就不存在部署不及时的问题。</p>
+<h4 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h4><p>我采用的是第二种方式（在服务器搭建远程仓库），后续也是基于这种方式来进行介绍。</p>
+<img src="/2020/08/04/博客迁移之旅/server-flow.jpg" title="流程图">
+<p>具体拆解下来，分为服务器端与本地客户端两个部分的操作。</p>
+<h5 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a><strong>服务器</strong></h5><blockquote>
+<p>注：以下的操作都是在 <code>root</code> 权限下进行的。</p>
+</blockquote>
+<ol>
+<li>安装并配置 Docker</li>
+</ol>
+<p>博客是通过 <code>Docker</code> 容器来部署的，所以需要在服务器上下载安装 <code>Docker</code>。也可以不用 <code>Docker</code>，直接通过 <code>nginx</code> 来部署。这里主要是为了以后迁移方便（如果以后需要更换服务器，只需要将 <code>Docker</code> 脚本以及相关的配置文件打包走即可，不用再重新配置 <code>nginx</code> ），同时自己也想熟悉一下 <code>Docker</code> 的相关用法。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装 docker，因为我的服务器预装了 CentOS 系统，所以可以直接使用 yum 命令</span></span><br><span class="line">yum install docker -y</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动 docker</span></span><br><span class="line">service docker start</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置开机启动</span></span><br><span class="line">chkconfig docker on</span><br></pre></td></tr></table></figure></p>
+<p>国内访问 <code>Docker Hub</code> 较慢，可以使用腾讯云提供的国内镜像源，加速访问 <code>Docker Hub</code>。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 创建 docker 配置文件目录</span></span><br><span class="line">mkdir /etc/docker</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 添加新的镜像源</span></span><br><span class="line">cat &gt;&gt; /etc/docker/daemon.json &lt;&lt;-<span class="string">'EOF'</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"registry-mirrors"</span>: [<span class="string">"https://mirror.ccs.tencentyun.com"</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 加载配置文件</span></span><br><span class="line">systemctl daemon-reload</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 重启 docker</span></span><br><span class="line">service docker restart</span><br></pre></td></tr></table></figure></p>
+<p>配置好 <code>Docker</code> 的镜像源后，我们就可以通过 <code>Docker</code> 来拉取 <code>nginx</code> 镜像。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 拉取 nginx 镜像</span></span><br><span class="line">docker pull nginx</span><br></pre></td></tr></table></figure></p>
+<p>安装 <code>docker-compose</code> 。</p>
+<blockquote>
+<p>注：<code>docker-compose</code> 在这里不是必需的，它是用来解决多个容器编排的一种方案。因为这里只用到了 <code>nginx</code> 镜像，完全可以用一个 <code>Dockerfile</code> 文件来进行定制。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下载安装 docker-compose</span></span><br><span class="line">yum install docker-compose -y</span><br></pre></td></tr></table></figure>
+<p>接下来需要修改一下 nginx` 相关的配置。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 在 /home 目录底下新建一个 blob 目录，并进入到该目录底下。</span></span><br><span class="line"><span class="comment">#    这个目录就是博客的部署目录，里面存放着博客的静态文件以及与 nginx 相关的配置文件。 </span></span><br><span class="line"><span class="built_in">cd</span> /home &amp;&amp; mkdir blob &amp;&amp; <span class="built_in">cd</span> blob</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 创建 docker-compose.yml 文件</span></span><br><span class="line">vim docker-compose.yml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 在 docker-compose.yml 文件中输入以下内容</span></span><br><span class="line">version: <span class="string">'3'</span></span><br><span class="line">services:</span><br><span class="line">  nginx:</span><br><span class="line">    restart: <span class="string">'always'</span></span><br><span class="line">    image: <span class="string">'nginx'</span></span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">'80:80'</span></span><br><span class="line">      - <span class="string">'443:443'</span></span><br><span class="line">    volumes: </span><br><span class="line">      <span class="comment"># a. volumes 将物理主机目录挂载到容器中</span></span><br><span class="line">      <span class="comment"># b. 以 : 为分隔符，前半部分为服务器目录，后半部分是容器中的目录</span></span><br><span class="line">      <span class="comment"># c. 挂载建立的是双向关联，类似于软连接</span></span><br><span class="line">      <span class="comment"># d. 当修改了服务器中的文件，则容器中所关联的文件也会同步更新，无需重新构建</span></span><br><span class="line">      <span class="comment">#</span></span><br><span class="line">      <span class="comment"># /home/blob/www/public 为服务器目录，里面存放的是博客的静态文件</span></span><br><span class="line">      <span class="comment"># 将它挂载到容器内的 /usr/share/nginx/html 目录中，将来服务器中的博客文件更新后，容器内会同步更新  </span></span><br><span class="line">      - <span class="string">'/home/blob/www/public:/usr/share/nginx/html'</span></span><br><span class="line">      <span class="comment"># 挂载 nginx 的日志文件</span></span><br><span class="line">      - <span class="string">'/home/blob/log:/var/log/nginx'</span></span><br><span class="line">      <span class="comment"># 挂载 nginx 的配置文件</span></span><br><span class="line">      - <span class="string">'/home/blob/conf:/etc/nginx/conf.d'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 创建 nginx 相关的配置文件</span></span><br><span class="line"><span class="comment">#    在 conf 目录底下创建一个 default.conf 文件，此文件将来会被挂载到 nginx 容器中并作为它的配置文件</span></span><br><span class="line"><span class="built_in">cd</span> /home/blob/conf &amp;&amp; vim default.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 在 default.conf 文件中输入以下内容</span></span><br><span class="line">server &#123;</span><br><span class="line">  listen    80;</span><br><span class="line">  server_name localhost;</span><br><span class="line"></span><br><span class="line">  root    /usr/share/nginx/html;</span><br><span class="line">  location / &#123;</span><br><span class="line">    root  /usr/share/nginx/html;</span><br><span class="line">    index index.html index.htm;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  autoindex on;</span><br><span class="line">  autoindex_exact_size  on;</span><br><span class="line">  autoindex_localtime on;</span><br><span class="line"></span><br><span class="line">  error_page  500 502 503 504   /50x.html;</span><br><span class="line">  location = /50x.html &#123;</span><br><span class="line">    root  /usr/share/nginx/html;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6. 启动容器</span></span><br><span class="line"><span class="built_in">cd</span> /home/blob &amp;&amp; docker-compose up -d</span><br></pre></td></tr></table></figure></p>
+<p>至此，所有与 <code>nginx</code> 相关的步骤都已经完成，接下来就是 <code>git</code> 相关的配置了。</p>
+<ol start="2">
+<li>安装并配置 Git</li>
+</ol>
+<p>因为博客的远程仓库是在服务器上创建的，所以需要在服务器上安装 <code>git</code> 工具。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下载安装 git </span></span><br><span class="line">yum install git -y</span><br></pre></td></tr></table></figure></p>
+<p>安装完 <code>git</code> 后，在 <code>/home</code> 目录底下创建一个 <code>blob.git</code> 的仓库，该仓库就是博客的远程仓库。</p>
+<blockquote>
+<p>注：博客的远程仓库以及上文中提到的博客的部署目录，并不一定要在 <code>/home</code> 目录下创建，可以根据自己的需要在服务器上选择一个已存在的目录。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建博客的远程仓库</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># --bare：表示创建一个裸的仓库，没有工作区（没有 .git 目录）</span></span><br><span class="line"><span class="comment"># 远程仓库只负责接收本地推送过来的数据，不允许直接在该仓库底下进行 git 操作</span></span><br><span class="line"><span class="built_in">cd</span> /home &amp;&amp; git init --bare blog.git</span><br></pre></td></tr></table></figure>
+<p>创建 <code>post-receive</code> 钩子文件。</p>
+<blockquote>
+<p>注：<code>post-receive</code> 是 <code>git</code> 在收到 <code>push</code> 事件以后执行的一个脚本文件，通过它可以实现对 <code>push</code> 事件的监听，从而达到自动部署的功能。<br>参考：<strong><em><u><a href="https://git-scm.com/book/zh/v2/自定义-Git-Git-钩子" target="_blank" rel="noopener">自定义-Git-Git-钩子</a></u></em></strong></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 进入到 blob.git 仓库中的 hooks 目录下，所有的钩子文件都在这个目录下</span></span><br><span class="line"><span class="built_in">cd</span> blog.git/hooks</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 创建 post-receive 文件</span></span><br><span class="line">vim post-receive</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 在 post-receive 文件中输入以下内容</span></span><br><span class="line"><span class="comment">#    该命令会将</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   --work-tree </span></span><br><span class="line"><span class="comment">#   --git-dir</span></span><br><span class="line">git --work-tree=/home/blob/www/public --git-dir=/home/blob.git checkout -f</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>服务器目录结构图<img src="/2020/08/04/博客迁移之旅/server-structure.jpg" title="服务器目录结构图">
+</li>
+</ol>
+<h5 id="本地"><a href="#本地" class="headerlink" title="本地"></a><strong>本地</strong></h5><ol>
+<li>配置 ssh 密钥，实现服务器的免密登录</li>
+<li>安装并配置 hexo</li>
+</ol>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='/mp3/bg-music.mp3'></li>
+                    
+                        <li title='1' data-url='/mp3/melody.mp3'></li>
+                    
+                        <li title='2' data-url='/mp3/summer.mp3'></li>
+                    
+                        <li title='3' data-url='/mp3/M01.mp3'></li>
+                    
+                        <li title='4' data-url='/mp3/canon.mp3'></li>
+                    
+                        <li title='5' data-url='/mp3/spirited-away.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='true'
+        data-ci='3c68378bc5bf28ef6ee7'
+        data-cs='e2fe8d0d7e102530939dd74248395299a85a7589'
+        data-r='BlobComment'
+        data-o='fanxiaocong'
+        data-a='fanxiaocong'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#关于服务器"><span class="toc-number">2.</span> <span class="toc-text">关于服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#服务器配置清单"><span class="toc-number">2.1.</span> <span class="toc-text">服务器配置清单</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#流程"><span class="toc-number">3.</span> <span class="toc-text">流程</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#远程仓库建在-Github-上"><span class="toc-number">3.1.</span> <span class="toc-text">远程仓库建在 Github 上</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#远程仓库建在服务器上"><span class="toc-number">3.2.</span> <span class="toc-text">远程仓库建在服务器上</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#步骤"><span class="toc-number">4.</span> <span class="toc-text">步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#服务器"><span class="toc-number">4.1.</span> <span class="toc-text">服务器</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#本地"><span class="toc-number">4.2.</span> <span class="toc-text">本地</span></a></li></ol></li></ol>
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
