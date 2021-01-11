@@ -11,6 +11,7 @@ var initCopyCode = function () {
   // 如果页面没有代码区域，或者已经存在复制按钮，则不用再重复创建
   if (!$codeArea.length || $copyButton.length)   return;
 
+  $(".highlight").wrap("<div class='code-wrapper' style='position:relative'></div>");
   $(".highlight .code pre").before(copyHtml);
   // 创建复制对象
   var clipboard = new ClipboardJS('.btn-copy', {
