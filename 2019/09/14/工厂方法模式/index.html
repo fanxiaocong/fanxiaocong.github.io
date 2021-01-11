@@ -15,6 +15,7 @@
     <link rel="alternative" href="atom.xml" title="小小聪明屋" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/html/me/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/diaspora.css">
     <link rel="stylesheet" href="/css/cover.css">
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -35,7 +36,7 @@
     <div id="single">
     <div id="top" style="display: block;">
     <div class="bar" style="width: 0;"></div>
-    <a class="icon-home image-icon" href="javascript:;" data-url="https://fanxiaocong.github.io"></a>
+    <a class="icon-home image-icon" href="javascript:;" data-url="https://littlec.net"></a>
     <div title="播放/暂停" class="icon-play"></div>
     <h3 class="subtitle">iOS设计模式 - 工厂方法模式</h3>
     <div class="social">
@@ -57,18 +58,30 @@
     <div class='main'>
         <h1 class="title">iOS设计模式 - 工厂方法模式</h1>
         <div class="stuff">
-            <span>九月 14, 2019</span>
+            <span><i class="fa fa-calendar"></i> 2019-09-14</span>
+            |
+            <!-- id 将作为查询条件 -->
+            <span id="2019/09/14/工厂方法模式/" class="leancloud_visitors" data-flag-title="iOS设计模式 - 工厂方法模式">
+                <i class="fa fa-eye"></i>
+                <span class="leancloud-visitors-count"></span>次
+            </span>
+            |
+            <span><i class="fa fa-comment-o"></i>
+                <a href="/2019/09/14/工厂方法模式/#valine-container" itemprop="discussionUrl" class="comment-count">
+                    <span class="post-comments-count valine-comment-count" data-xid="/2019/09/14/工厂方法模式/" itemprop="commentCount"></span>
+                </a>
+            </span>
             
   <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/iOS/">iOS</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/工厂方法模式/">工厂方法模式</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
 
 
         </div>
         <div class="content markdown">
-            <h4 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h4><p>前面我们已经介绍过 <em style="color:#333;font-size:16px;"><u><a href="https://fanxiaocong.github.io/2019/09/09/简单工厂模式/">简单工厂模式</a></u></em> 的基本概念，知道了它的特点是将对象的创建与使用进行了分离，屏蔽了对象创建的内部细节，让外部的调用更加方便。但是它的的缺点也比较明显，当需要添加新的目标对象时，我们不得不修改工厂类提供的静态方法，如果目标对象过多，工厂类就会比较臃肿，不利于项目的拓展和维护，同时也违背了 <code>开闭原则</code> 。为了解决这个问题，就需要引入一个新的设计模式 — <strong><em>工厂方法模式</em></strong>。</p>
+            <h4 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h4><p>前面我们已经介绍过 <em style="color:#333;font-size:16px;"><u><a href="https://fanxiaocong.github.io/2019/09/09/简单工厂模式/" target="_blank" rel="noopener">简单工厂模式</a></u></em> 的基本概念，知道了它的特点是将对象的创建与使用进行了分离，屏蔽了对象创建的内部细节，让外部的调用更加方便。但是它的的缺点也比较明显，当需要添加新的目标对象时，我们不得不修改工厂类提供的静态方法，如果目标对象过多，工厂类就会比较臃肿，不利于项目的拓展和维护，同时也违背了 <code>开闭原则</code> 。为了解决这个问题，就需要引入一个新的设计模式 — <strong><em>工厂方法模式</em></strong>。</p>
 <blockquote>
 <p><em style="color:darkgray;font-size:14px;">博文中引用的 <u><a href="https://github.com/fanxiaocong/BlobFactoryMethodDemo" target="_blank" rel="noopener">Demo</a></u> 已经放到 github 上面了，有需要的小伙伴可以去下载</em></p>
 </blockquote>
-<h4 id="模式介绍"><a href="#模式介绍" class="headerlink" title="模式介绍"></a>模式介绍</h4><p><strong>工厂方法模式</strong>（Factory Method Pattern）又称为工厂模式，也叫虚拟构造器（Virtual Constructor）模式或者多态工厂（Polymorphic Factory）模式，它属于类创建型模式。<br>它是对 <em style="color:#333;font-size:16px;"><u><a href="https://fanxiaocong.github.io/2019/09/09/简单工厂模式/">简单工厂模式</a></u></em> 的进一步抽象，将原先的核心工厂类拆分为抽象工厂父类以及其派生的工厂子类。工厂父类负责定义创建目标对象的公共接口，而工厂子类则负责生成具体的目标对象。这样做的目的是将目标类的实例化操作延迟到工厂子类中完成，即通过工厂子类来确定究竟应该实例化哪一个具体目标类。</p>
+<h4 id="模式介绍"><a href="#模式介绍" class="headerlink" title="模式介绍"></a>模式介绍</h4><p><strong>工厂方法模式</strong>（Factory Method Pattern）又称为工厂模式，也叫虚拟构造器（Virtual Constructor）模式或者多态工厂（Polymorphic Factory）模式，它属于类创建型模式。<br>它是对 <em style="color:#333;font-size:16px;"><u><a href="https://fanxiaocong.github.io/2019/09/09/简单工厂模式/" target="_blank" rel="noopener">简单工厂模式</a></u></em> 的进一步抽象，将原先的核心工厂类拆分为抽象工厂父类以及其派生的工厂子类。工厂父类负责定义创建目标对象的公共接口，而工厂子类则负责生成具体的目标对象。这样做的目的是将目标类的实例化操作延迟到工厂子类中完成，即通过工厂子类来确定究竟应该实例化哪一个具体目标类。</p>
 <h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><p>工厂方法模式主要包含以下四个角色：</p>
 <ol>
 <li><h5 id="AbstractFactory"><a href="#AbstractFactory" class="headerlink" title="AbstractFactory"></a><strong>AbstractFactory</strong></h5><p style="font-size: 14px;">抽象工厂，负责定义创建目标对象的公共接口。</p></li>
@@ -128,16 +141,15 @@
                 </ul>
             
         </div>
+        <div style="border-top: 1px dashed rgba(0, 0, 0, 0.1); margin-top: 50px;"></div>
         
-    <div id='gitalk-container' class="comment link"
-        data-ae='true'
-        data-ci='871780fe5ac406824c84'
-        data-cs='957bc811a5631c20a083f96a3559191b7f89743e'
-        data-r='BlobComment'
-        data-o='fanxiaocong'
-        data-a='fanxiaocong'
-        data-d='false'
-    >查看评论</div>
+    <div id='valine-container' class="comment link"
+        data-appid='0DFzw8QnVinGTX735v1gfvTb-gzGzoHsz'
+        data-appkey='l6Q6mt8Oku3rKmh4wIJ3AyfL'
+        data-avatar='mp'
+        data-placeholder='留下您的足迹~'
+        data-enableqq='true'
+    ></div>
 
 
     </div>
@@ -152,10 +164,13 @@
     </div>
 </div>
 </body>
-<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
-<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/Valine.min.js"></script>
+<script src="/js/jquery.min.js"></script>
 <script src="/js/plugin.js"></script>
+<script src="/js/clipboard.min.js"></script>
+<script src="/js/clipboard-use.js"></script>
 <script src="/js/diaspora.js"></script>
+<script src="/js/valine-use.js"></script>
 <link rel="stylesheet" href="/photoswipe/photoswipe.css">
 <link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
 <script src="/photoswipe/photoswipe.min.js"></script>

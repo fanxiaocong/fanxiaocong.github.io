@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>JavaScript 基于排序描述符对数组进行排序 - 小小聪明屋</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fanxiaocong,"> 
+    <meta name="description" content="JavaScript 中的排序在 JavaScript 中为数组排序很简单：
+12let array = [3, 1, 2]array.sort()  // [ 1, 2, 3 ]
+Array.pr,"> 
+    <meta name="author" content="fanxiaocong"> 
+    <link rel="alternative" href="atom.xml" title="小小聪明屋" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/html/me/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <link rel="stylesheet" href="/css/cover.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+</head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">小小聪明屋</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="https://littlec.net"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">JavaScript 基于排序描述符对数组进行排序</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">JavaScript 基于排序描述符对数组进行排序</h1>
+        <div class="stuff">
+            <span><i class="fa fa-calendar"></i> 2021-01-05</span>
+            |
+            <!-- id 将作为查询条件 -->
+            <span id="2021/01/05/JavaScript-基于排序描述符对数组进行排序/" class="leancloud_visitors" data-flag-title="JavaScript 基于排序描述符对数组进行排序">
+                <i class="fa fa-eye"></i>
+                <span class="leancloud-visitors-count"></span>次
+            </span>
+            |
+            <span><i class="fa fa-comment-o"></i>
+                <a href="/2021/01/05/JavaScript-基于排序描述符对数组进行排序/#valine-container" itemprop="discussionUrl" class="comment-count">
+                    <span class="post-comments-count valine-comment-count" data-xid="/2021/01/05/JavaScript-基于排序描述符对数组进行排序/" itemprop="commentCount"></span>
+                </a>
+            </span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/JS/">JS</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/函数式编程/">函数式编程</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/排序/">排序</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h4 id="JavaScript-中的排序"><a href="#JavaScript-中的排序" class="headerlink" title="JavaScript 中的排序"></a>JavaScript 中的排序</h4><p>在 <code>JavaScript</code> 中为数组排序很简单：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array = [<span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">array.sort()  <span class="comment">// [ 1, 2, 3 ]</span></span><br></pre></td></tr></table></figure>
+<p><code>Array.prototype.sort()</code> 方法将数组中的元素排序并返回排序后的数组。需要注意的是：此方法会修改原数组。</p>
+<blockquote>
+<p><em style="color:darkgray;font-size:14px;">博文中引用的 <u><a href="https://github.com/fanxiaocong/BlobSortDemo" target="_blank" rel="noopener">Demo</a></u> 已经上传到 github 上面了，有需要的小伙伴可以去下载</em></p>
+</blockquote>
+<h4 id="数组的默认排序"><a href="#数组的默认排序" class="headerlink" title="数组的默认排序"></a>数组的默认排序</h4><p>当不带参数调用 <code>sort()</code> 方法时，数组元素以 <code>字母表</code> 顺序排序。对于数组中非字符串的元素，会将其转化为字符串后再进行比较。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array1 = [<span class="string">'banana'</span>, <span class="string">'cherry'</span>, <span class="string">'apple'</span>]</span><br><span class="line">array1.sort()  <span class="comment">// [ 'apple', 'banana', 'cherry' ]</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> array2 = [<span class="number">33</span>, <span class="number">4</span>, <span class="number">1111</span>, <span class="number">222</span>]</span><br><span class="line">array2.sort()  <span class="comment">// [ 1111, 222, 33, 4 ]</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> array3 = [<span class="literal">NaN</span>, <span class="number">10</span>, <span class="literal">undefined</span>, <span class="literal">null</span>, <span class="string">'Nc'</span>]</span><br><span class="line">array3.sort()  <span class="comment">// [ 10, NaN, 'Nc', null, undefined ]</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：如果数组中包含 <code>undefined</code> 元素，它们会被排到数组的尾部。</p>
+</blockquote>
+<h4 id="使用比较函数进行排序"><a href="#使用比较函数进行排序" class="headerlink" title="使用比较函数进行排序"></a>使用比较函数进行排序</h4><p>通常情况下，这个无参的 <code>sort()</code> 方法可能并不是我们想要的。如果我们想用其它方式而非字母表顺序对数组进行排序，则需要提供一个 <code>比较函数</code> 给 <code>sort()</code> 方法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array = [<span class="number">33</span>, <span class="number">4</span>, <span class="number">1111</span>, <span class="number">222</span>]</span><br><span class="line">array.sort(<span class="function">(<span class="params">a, b</span>) =&gt;</span> a - b)   <span class="comment">// 数值升序排列：[ 4, 33, 222, 1111 ]</span></span><br><span class="line">array.sort(<span class="function">(<span class="params">a, b</span>) =&gt;</span> b - a)   <span class="comment">// 数值降序排列：[ 1111, 222, 33, 4 ]</span></span><br></pre></td></tr></table></figure>
+<p><code>比较函数</code> 决定了它的两个参数在排好序的数组中的先后顺序。如果想要第一个参数在前，则比较函数需要返回一个大于 0 的数值。反之，则需要返回一个小于 0 的数值。如果是想要保持顺序不变，则需要返回 0。我们可以使用任意的比较函数来对数组进行排序，而这使得 <code>JavaScript</code> 的排序非常强大。</p>
+<p>这里我们先实现一个稍微复杂一点的例子，对一个自定义的对象数组进行排序，后面会对它进行重构，并使用排序描述符的方式对它排序。</p>
+<p>我们先定义一个数组，其中包含了不同名字和年龄的人：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> person = <span class="function">(<span class="params">first, last, age</span>) =&gt;</span> (&#123; first, last, age &#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> people = [</span><br><span class="line">  person(<span class="string">'Emmy'</span>, <span class="string">'Yahn'</span>, <span class="number">19</span>),</span><br><span class="line">  person(<span class="string">'Lucy'</span>, <span class="string">'Jhon'</span>, <span class="number">27</span>),</span><br><span class="line">  person(<span class="string">'Andy'</span>, <span class="string">'Brown'</span>, <span class="number">8</span>),</span><br><span class="line">  person(<span class="string">'Robbert'</span>, <span class="string">'Keaven'</span>, <span class="number">36</span>),</span><br><span class="line">  person(<span class="string">'Andy'</span>, <span class="string">'Jhon'</span>, <span class="number">31</span>),</span><br><span class="line">  person(<span class="string">'Andy'</span>, <span class="string">'Brown'</span>, <span class="number">5</span>)</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>我们想要对这个数组进行排序，规则是先按照姓排序，再按照名排序，最后是年龄。常见的做法是在 <code>比较函数</code> 中依次对需要排序的字段进行处理，如果相同，则继续比较下一个需要排序的字段，直至比较出不同的结果。</p>
+<p>我们先对对象中的某一个属性进行排序，实现起来也非常简单：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 按照 last 属性升序列表</span></span><br><span class="line">people.sort(<span class="function">(<span class="params">p0, p1</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (p0.last &gt; p1.last)  <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">  <span class="keyword">if</span> (p0.last &lt; p1.last)  <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">people</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">[</span></span><br><span class="line"><span class="comment">  &#123; first: 'Andy', last: 'Brown', age: 8 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Andy', last: 'Brown', age: 5 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Lucy', last: 'Jhon', age: 27 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Andy', last: 'Jhon', age: 31 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Robbert', last: 'Keaven', age: 36 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Emmy', last: 'Yahn', age: 19 &#125;</span></span><br><span class="line"><span class="comment">]</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>接下来，我们在 <code>比较函数</code> 中加入新的排序项，同时比较姓和名。先按照 <code>last</code> 属性进行比较，如果相同，则比较 <code>first</code> 属性：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">people.sort(<span class="function">(<span class="params">p0, p1</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 按照 last 升序</span></span><br><span class="line">  <span class="keyword">if</span> (p0.last &gt; p1.last)  <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">  <span class="keyword">if</span> (p0.last &lt; p1.last)  <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// last 相同，按照 first 升序</span></span><br><span class="line">  <span class="keyword">if</span> (p0.first &gt; p1.first)  <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">  <span class="keyword">if</span> (p0.first &lt; p1.first)  <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">people</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">[</span></span><br><span class="line"><span class="comment">  &#123; first: 'Andy', last: 'Brown', age: 8 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Andy', last: 'Brown', age: 5 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Andy', last: 'Jhon', age: 31 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Lucy', last: 'Jhon', age: 27 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Robbert', last: 'Keaven', age: 36 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Emmy', last: 'Yahn', age: 19 &#125;</span></span><br><span class="line"><span class="comment">]</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>通过这种方式，我们可以实现任何我们想要的排序规则，从而得到我们所期望的排序结果。但问题同样也很明显：随着排序项的增多，<code>比较函数</code> 中的判断逻辑也会随之增加。当需要排序的字段很多时，我们很难直观地看出 <code>比较函数</code> 所要传递出来的意思，这为以后我们修改其中的排序项带来了不便。</p>
+<h4 id="使用排序描述符进行排序"><a href="#使用排序描述符进行排序" class="headerlink" title="使用排序描述符进行排序"></a>使用排序描述符进行排序</h4><p>前面我们已经介绍过如何通过 <code>比较函数</code> 来对自定义的对象数组进行排序，不过它还存在很大的改善空间，这里我们尝试使用另外一种方式来实现我们想要的效果。</p>
+<p>值得一提的是，我们并不会选择去写一个更复杂的函数来进行排序，实际上排序的算法是由 <code>Array</code> 来实现的，我们只是向它传递出了要按照怎样的方式去排序，比如：按照字符串或数字的大小，进行升序、降序排序。</p>
+<p>相比于直接将排序的逻辑定义在 <code>比较函数</code> 中，通过定义一组用来描述如何对数组元素进行排序的描述符会是更好的选择。每个描述符中定义了对象的排序规则，通过它可以表达出各自的排序标准。由于 <code>JavaScript</code> 中函数是 <code>一等公民</code>，因此我们可以定义一个描述对象顺序的函数来做为描述符。其中，最简单的一种实现就是接受两个对象作为参数，并在它们顺序正确的时候，返回一个正数。这个函数的结构与 <code>sort()</code> 方法中 <code>比较函数</code> 的结构是一致的。</p>
+<p>接下来，让我们回到前面的例子，看如何通过排序描述符来达到我们想要的效果。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 按照 last 升序</span></span><br><span class="line"><span class="keyword">const</span> sortByLast = <span class="function">(<span class="params">p0, p1</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (p0.last &lt; p1.last)  <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">  <span class="keyword">if</span> (p0.last &gt; p1.last)  <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 按照 first 升序</span></span><br><span class="line"><span class="keyword">const</span> sortByFirst = <span class="function">(<span class="params">p0, p1</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (p0.first &lt; p1.first)  <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">  <span class="keyword">if</span> (p0.first &gt; p1.first)  <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的 <code>sortByLast</code> 和 <code>sortByFirst</code> 都是一个排序描述符，它们分别描述了用何种方式去对 <code>last</code> 与 <code>first</code> 进行排序。这个地方你可能会有疑惑，这和之前的 <code>比较函数</code> 中的代码并没有什么区别，无非是这里我们将它搬到了指定的函数中。是的，目前来看这样做对我们代码量的减少确实没有太大的作用，不过将具体的排序规则抽离到单独的函数中是有意义的，至少在可读性上面要清晰不少，稍后我们再对它进行优化。</p>
+<p>除了手写这些排序描述符外，我们也可以创建一个函数来生成它们。将相同的属性写两次并不太好，比如在 <code>sortByLast</code> 中，我们很容易就会不小心弄成 <code>p0.last</code> 和 <code>p1.first</code> 进行比较。而且写排序描述符本身也挺无聊的：想要通过 <code>first</code> 来排序的时候，很可能你就把 <code>last</code> 排序的 <code>sortByLast</code> 复制粘贴一下，然后再进行修改。</p>
+<p>为了避免复制粘贴，我们可以定义一个函数，它接收两个函数作为参数。第一个参数是一个名为 <code>transform</code> 的函数，正如它的名字一样，此函数转换的能力，它接收一个正在排序的数组的元素，并返回这个排序符所要处理的属性值。然后，我们使用第二个参数 <code>orderBy</code> 函数来比较 <code>transform</code> 函数返回的结果。最后，返回我们需要的排序描述符：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> descriptor = <span class="function">(<span class="params">transform, orderBy</span>) =&gt;</span> (lhs, rhs) =&gt; orderBy(transform(lhs), transform(rhs))</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>transform</code> 函数描述了如何深入一个任意对象的元素，并提取出一个和特定排序步骤相关的值。</p>
+</blockquote>
+<p>有了这个函数，我们就可以用另外一种方式来定义 <code>sortByLast</code> 与 <code>sortByFirst</code> 了：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 按照 last 升序</span></span><br><span class="line"><span class="keyword">const</span> sortByLast = descriptor(<span class="function"><span class="params">item</span> =&gt;</span> item.last, (lhs, rhs) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (lhs &gt; rhs)  <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">  <span class="keyword">if</span> (lhs &lt; rhs)  <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 按照 first 升序</span></span><br><span class="line"><span class="keyword">const</span> sortByFirst = descriptor(<span class="function"><span class="params">item</span> =&gt;</span> item.first, (lhs, rhs) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (lhs &gt; rhs)  <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">  <span class="keyword">if</span> (lhs &lt; rhs)  <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">people.sort(sortByLast)</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">[</span></span><br><span class="line"><span class="comment">  &#123; first: 'Andy', last: 'Brown', age: 8 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Andy', last: 'Brown', age: 5 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Lucy', last: 'Jhon', age: 27 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Andy', last: 'Jhon', age: 31 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Robbert', last: 'Keaven', age: 36 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Emmy', last: 'Yahn', age: 19 &#125;</span></span><br><span class="line"><span class="comment">]</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line">people.sort(sortByFirst)</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">[</span></span><br><span class="line"><span class="comment">  &#123; first: 'Andy', last: 'Brown', age: 8 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Andy', last: 'Jhon', age: 31 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Andy', last: 'Brown', age: 5 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Emmy', last: 'Yahn', age: 19 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Lucy', last: 'Jhon', age: 27 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Robbert', last: 'Keaven', age: 36 &#125;</span></span><br><span class="line"><span class="comment">]</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>这看上去要比之前的那种方式稍微好一点了，不过仍然存在改善的空间：对于某个已经确定的排序规则，它们的逻辑代码是完全相同的，比如这里的 <code>sortByLast</code> 与 <code>sortByFirst</code> 中的进行比较的代码，它们都是按照 <code>升序</code> 的规则对 <code>last</code> 或 <code>first</code> 进行比较。因此，我们可以将具体描述排序规则的代码抽离出来：升序、降序。</p>
+<p>不过在此之前，我们先解决一件事：通过正数、负数来描述两个元素的相对位置可能并不是那么直观，因此，让我们来给它们重新命名一下。由于 <code>JavaScript</code> 中没有枚举的概念，这里我们用一个常量对象来达到同样的效果。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ComparisonResult = &#123;</span><br><span class="line">  orderedAscending: <span class="number">-1</span>,</span><br><span class="line">  orderedSame: <span class="number">0</span>,</span><br><span class="line">  orderedDescending: <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后，我们将 <code>升序</code> 和 <code>降序</code> 的逻辑抽离出来：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 升序</span></span><br><span class="line"><span class="keyword">const</span> ascendingOrder = <span class="function">(<span class="params">a, b</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (a == b)   <span class="keyword">return</span> ComparisonResult.orderedSame</span><br><span class="line">  <span class="keyword">if</span> (a &lt; b)    <span class="keyword">return</span> ComparisonResult.orderedAscending</span><br><span class="line">  <span class="keyword">if</span> (a &gt; b)    <span class="keyword">return</span> ComparisonResult.orderedDescending</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 降序</span></span><br><span class="line"><span class="keyword">const</span> descendingOrder = <span class="function">(<span class="params">a, b</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (a == b)   <span class="keyword">return</span> ComparisonResult.orderedSame</span><br><span class="line">  <span class="keyword">if</span> (a &lt; b)    <span class="keyword">return</span> ComparisonResult.orderedDescending</span><br><span class="line">  <span class="keyword">if</span> (a &gt; b)    <span class="keyword">return</span> ComparisonResult.orderedAscending</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>甚至，我们还可以再写一个函数专门处理这些比较的逻辑：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> orderBy = <span class="function">(<span class="params">a, b, order</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (a == b)   <span class="keyword">return</span> ComparisonResult.orderedSame</span><br><span class="line">  <span class="keyword">if</span> (a &gt; b)    <span class="keyword">return</span> order * ComparisonResult.orderedAscending</span><br><span class="line">  <span class="keyword">if</span> (a &lt; b)    <span class="keyword">return</span> order * ComparisonResult.orderedDescending</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最终，我们看到的的函数应该是这个样子的：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 升序排列</span></span><br><span class="line"><span class="keyword">const</span> ascendingOrder = <span class="function">(<span class="params">a, b</span>) =&gt;</span> orderBy(a, b, ComparisonResult.orderedAscending)</span><br><span class="line"><span class="comment">// 降序排列</span></span><br><span class="line"><span class="keyword">const</span> descendingOrder = <span class="function">(<span class="params">a, b</span>) =&gt;</span> orderBy(a, b, ComparisonResult.orderedDescending)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> descriptor = <span class="function">(<span class="params">transform = item =&gt; item, orderBy = ascendingOrder</span>) =&gt;</span> (lhs, rhs) =&gt; orderBy(transform(lhs), transform(rhs))</span><br></pre></td></tr></table></figure>
+<p>这样，我们就可以用简短清晰得多的方式来重写 <code>sortByLast</code> 和 <code>sortByFirst</code> 了：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> sortByLast = descriptor(<span class="function"><span class="params">item</span> =&gt;</span> item.last)</span><br><span class="line"><span class="keyword">const</span> sortByFirst = descriptor(<span class="function"><span class="params">item</span> =&gt;</span> item.first)</span><br><span class="line"></span><br><span class="line">people.sort(sortByLast)</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">[</span></span><br><span class="line"><span class="comment">  &#123; first: 'Andy', last: 'Brown', age: 8 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Andy', last: 'Brown', age: 5 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Lucy', last: 'Jhon', age: 27 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Andy', last: 'Jhon', age: 31 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Robbert', last: 'Keaven', age: 36 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Emmy', last: 'Yahn', age: 19 &#125;</span></span><br><span class="line"><span class="comment">]</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line">people.sort(sortByFirst)</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">[</span></span><br><span class="line"><span class="comment">  &#123; first: 'Andy', last: 'Brown', age: 8 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Andy', last: 'Brown', age: 5 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Andy', last: 'Jhon', age: 31 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Emmy', last: 'Yahn', age: 19 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Lucy', last: 'Jhon', age: 27 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Robbert', last: 'Keaven', age: 36 &#125;</span></span><br><span class="line"><span class="comment">]</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>如果需要添加其它的排序方式也非常简单：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 按照 `last` 降序排列：</span></span><br><span class="line"><span class="keyword">const</span> sortByLastDesc = descriptor(<span class="function"><span class="params">item</span> =&gt;</span> item.last, descendingOrder)</span><br><span class="line"></span><br><span class="line">people.sort(sortByLastDesc)</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">[</span></span><br><span class="line"><span class="comment">  &#123; first: 'Emmy', last: 'Yahn', age: 19 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Robbert', last: 'Keaven', age: 36 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Lucy', last: 'Jhon', age: 27 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Andy', last: 'Jhon', age: 31 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Andy', last: 'Brown', age: 8 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Andy', last: 'Brown', age: 5 &#125;</span></span><br><span class="line"><span class="comment">]</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> array = [<span class="number">1</span>, <span class="number">9</span>, <span class="number">3</span>, <span class="number">7</span>]</span><br><span class="line"></span><br><span class="line">array.sort(descriptor())    <span class="comment">// [ 1, 3, 7, 9 ]</span></span><br></pre></td></tr></table></figure>
+<p>目前，我们只能用一个单一的 <code>descriptor</code> 函数对数组进行排序。如果想要同时对多个属性进行排序，实现起来也很简单：我们定义了一个把多个排序描述符合并为一个的函数。它首先会使用第一个描述符，并检查比较的结果。如果相等，再使用第二个，第三个，直到全部用完：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> combine = <span class="function">(<span class="params">...descriptors</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">lhs, rhs</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> result = ComparisonResult.orderedSame</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> descriptor <span class="keyword">of</span> descriptors) &#123;</span><br><span class="line">      result = descriptor(lhs, rhs)</span><br><span class="line">      <span class="keyword">if</span> (result == ComparisonResult.orderedSame)   <span class="keyword">continue</span></span><br><span class="line">      <span class="keyword">return</span> result</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在我们可以把一开始的例子重写为这样：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 按照 last 升序</span></span><br><span class="line"><span class="keyword">const</span> sortByLast = descriptor(<span class="function"><span class="params">item</span> =&gt;</span> item.last)</span><br><span class="line"><span class="comment">// 按照 first 升序</span></span><br><span class="line"><span class="keyword">const</span> sortByFirst = descriptor(<span class="function"><span class="params">item</span> =&gt;</span> item.first)</span><br><span class="line"><span class="comment">// 按照 age 降序</span></span><br><span class="line"><span class="keyword">const</span> sortByAge = descriptor(<span class="function"><span class="params">item</span> =&gt;</span> item.age, descendingOrder)</span><br><span class="line"><span class="comment">// 依次按照 last 升序、first 升序、age 降序的规则进行排序</span></span><br><span class="line"><span class="keyword">const</span> combined = combine(sortByLast, sortByFirst, sortByAge)</span><br><span class="line"></span><br><span class="line">people.sort(combined)</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">[</span></span><br><span class="line"><span class="comment">  &#123; first: 'Andy', last: 'Brown', age: 8 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Andy', last: 'Brown', age: 5 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Andy', last: 'Jhon', age: 31 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Lucy', last: 'Jhon', age: 27 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Robbert', last: 'Keaven', age: 36 &#125;,</span></span><br><span class="line"><span class="comment">  &#123; first: 'Emmy', last: 'Yahn', age: 19 &#125;</span></span><br><span class="line"><span class="comment">]</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>通过定义一个个用来描述特定排序规则的描述符，我们可以非常方便地完成对多个属性的排序。而且这种方式的可读性更高，也更容易维护，将来如果需要添加新的排序项，只需再生成一个排序描述符即可。</p>
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>函数作为 <code>JavaScript</code> 中的一等公民，把函数作为数据来传递的这种方式，为我们实现那些复杂的功能带来了很大的便携性。在本文中，我们通过定义一个个用来描述排序规则的函数，并最终将它们装配到一起，来完成我们想要的效果。 我们也看到了合并其它函数的函数的用武之地，它也是函数式编程的构建模块之一。例如：<code>combine()</code> 函数接收一组排序描述符的序列，并将它们合并成了单个的排序描述符。在很多不同的应用场景下，这项技术都非常强大。</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='/mp3/bg-music.mp3'></li>
+                    
+                        <li title='1' data-url='/mp3/melody.mp3'></li>
+                    
+                        <li title='2' data-url='/mp3/summer.mp3'></li>
+                    
+                        <li title='3' data-url='/mp3/M01.mp3'></li>
+                    
+                        <li title='4' data-url='/mp3/canon.mp3'></li>
+                    
+                        <li title='5' data-url='/mp3/spirited-away.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        <div style="border-top: 1px dashed rgba(0, 0, 0, 0.1); margin-top: 50px;"></div>
+        
+    <div id='valine-container' class="comment link"
+        data-appid='0DFzw8QnVinGTX735v1gfvTb-gzGzoHsz'
+        data-appkey='l6Q6mt8Oku3rKmh4wIJ3AyfL'
+        data-avatar='mp'
+        data-placeholder='留下您的足迹~'
+        data-enableqq='true'
+    ></div>
+
+
+    </div>
+    
+        <div class='side'>
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#JavaScript-中的排序"><span class="toc-number">1.</span> <span class="toc-text">JavaScript 中的排序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数组的默认排序"><span class="toc-number">2.</span> <span class="toc-text">数组的默认排序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用比较函数进行排序"><span class="toc-number">3.</span> <span class="toc-text">使用比较函数进行排序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用排序描述符进行排序"><span class="toc-number">4.</span> <span class="toc-text">使用排序描述符进行排序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#小结"><span class="toc-number">5.</span> <span class="toc-text">小结</span></a></li></ol>
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="/js/Valine.min.js"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/clipboard.min.js"></script>
+<script src="/js/clipboard-use.js"></script>
+<script src="/js/diaspora.js"></script>
+<script src="/js/valine-use.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
