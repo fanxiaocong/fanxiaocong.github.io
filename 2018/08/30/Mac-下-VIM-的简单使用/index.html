@@ -15,10 +15,18 @@ Vim is a highly configurable text editor for efficiently creating and changing a
     <meta name="author" content="fanxiaocong"> 
     <link rel="alternative" href="atom.xml" title="小小聪明屋" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
-    <link rel="stylesheet" href="/html/me/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/diaspora.css">
-    <link rel="stylesheet" href="/css/cover.css">
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/html/me/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+    
+<link rel="stylesheet" href="/css/cover.css">
+
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script>
          (adsbygoogle = window.adsbygoogle || []).push({
@@ -29,7 +37,7 @@ Vim is a highly configurable text editor for efficiently creating and changing a
     <script async custom-element="amp-auto-ads"
         src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
     </script>
-</head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 <body class="loading">
     <span id="config-title" style="display:none">小小聪明屋</span>
@@ -62,34 +70,34 @@ Vim is a highly configurable text editor for efficiently creating and changing a
             <span><i class="fa fa-calendar"></i> 2018-08-30</span>
             |
             <!-- id 将作为查询条件 -->
-            <span id="/2018/08/30/Mac-下-VIM-的简单使用/" class="leancloud_visitors" data-flag-title="Mac 下 VIM 的简单使用">
+            <span id="/2018/08/30/Mac-%E4%B8%8B-VIM-%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" class="leancloud_visitors" data-flag-title="Mac 下 VIM 的简单使用">
                 <i class="fa fa-eye"></i>
                 <span class="leancloud-visitors-count"></span>次
             </span>
             |
             <span><i class="fa fa-comment-o"></i>
-                <a href="/2018/08/30/Mac-下-VIM-的简单使用/#valine-container" itemprop="discussionUrl" class="comment-count">
-                    <span class="post-comments-count valine-comment-count" data-xid="/2018/08/30/Mac-下-VIM-的简单使用/" itemprop="commentCount"></span>
+                <a href="/2018/08/30/Mac-%E4%B8%8B-VIM-%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/#valine-container" itemprop="discussionUrl" class="comment-count">
+                    <span class="post-comments-count valine-comment-count" data-xid="/2018/08/30/Mac-%E4%B8%8B-VIM-%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" itemprop="commentCount"></span>
                 </a>
             </span>
             
-  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Mac/">Mac</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/VI/">VI</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/VIM/">VIM</a></li></ul>
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Mac/" rel="tag">Mac</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/VI/" rel="tag">VI</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/VIM/" rel="tag">VIM</a></li></ul>
 
 
         </div>
         <div class="content markdown">
             <blockquote>
-<p>Vim is a highly configurable text editor for efficiently creating and changing any kind of text.<br><strong><em>VIM</em></strong> - <em style="color:darkgray;font-size:14px;"><u><a href="https://www.vim.org" target="_blank" rel="noopener">https://www.vim.org</a></u></em></p>
+<p>Vim is a highly configurable text editor for efficiently creating and changing any kind of text.<br><strong><em>VIM</em></strong> - <em style="color:darkgray;font-size:14px;"><u><a target="_blank" rel="noopener" href="https://www.vim.org">https://www.vim.org</a></u></em></p>
 </blockquote>
 <h3 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h3><p>vim 是一种高效的文本编辑器，而且Mac电脑自带此编辑器，使用起来非常方便。</p>
-<img src="/2018/08/30/Mac-下-VIM-的简单使用/vim01.png" title="vim 键盘图">
-<p><br></p>
+<img src="/2018/08/30/Mac-%E4%B8%8B-VIM-%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/vim01.png" class="" title="vim 键盘图">
+<p></br></p>
 <blockquote>
 <p><em style="color:darkgray;font-size:14px;"> 注：以下命令的输入都是指在切换到英文输入法的前提下实现的。</em></p>
 </blockquote>
 <h3 id="初步体验"><a href="#初步体验" class="headerlink" title="初步体验"></a>初步体验</h3><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">创建文件（终端）</span><br><span class="line"><span class="keyword">vi</span> one.txt</span><br><span class="line"></span><br><span class="line">输入 i 进行内容编辑</span><br><span class="line">i</span><br><span class="line"></span><br><span class="line">编辑完后，按下键盘左上角的 Esc 键，结束编辑</span><br><span class="line">Esc</span><br><span class="line"></span><br><span class="line">保存并退出</span><br><span class="line">:<span class="keyword">wq</span></span><br></pre></td></tr></table></figure>
 <h3 id="工作模式"><a href="#工作模式" class="headerlink" title="工作模式"></a>工作模式</h3><p>vim 共分为三种模式，命令模式（Command mode），输入模式（Insert mode）和底线命令模式（Last line mode）。</p>
-<img src="/2018/08/30/Mac-下-VIM-的简单使用/vim02.png" title="vim 工作模式">
+<img src="/2018/08/30/Mac-%E4%B8%8B-VIM-%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/vim02.png" class="" title="vim 工作模式">
 <h4 id="命令模式-Command-Mode"><a href="#命令模式-Command-Mode" class="headerlink" title="命令模式 Command Mode"></a>命令模式 <em>Command Mode</em></h4><p>用户刚刚启动 vi/vim，便进入了命令模式。<br>此模式下从键盘输入的字符会被 vim 识别为命令。</p>
 <h4 id="输入模式-Insert-Mode"><a href="#输入模式-Insert-Mode" class="headerlink" title="输入模式 Insert Mode"></a>输入模式 <em>Insert Mode</em></h4><p>在命令模式下按下 i 或 I（o、O、a、A） 就进入了输入模式。<br>在此模式下用户从键盘输入的字符会被记录在文本中，用户可以在此模式下进行文本的输入与编辑。</p>
 <h4 id="底线命令模式-Last-Line-Mode"><a href="#底线命令模式-Last-Line-Mode" class="headerlink" title="底线命令模式 Last Line Mode"></a>底线命令模式 <em>Last Line Mode</em></h4><p>在命令模式下按下 :（英文冒号）就进入底线命令模式。<br>在此模式下用户可以输入单个或多个字符的命令来进行对文档的编辑。</p>
@@ -131,14 +139,9 @@ Vim is a highly configurable text editor for efficiently creating and changing a
 </tbody>
 </table>
 <ul>
-<li><p>输入模式切换到命令模式</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">按下键盘左上角的 Esc 键</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>命令模式切换到底线命令模式</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">输入英文的冒号（ : ）</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>底线命令模式切换到命令模式</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">按下键盘左上角的 Esc 键，或者 回车键（Enter）</span><br></pre></td></tr></table></figure>
+<li>输入模式切换到命令模式<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">按下键盘左上角的 Esc 键</span><br></pre></td></tr></table></figure></li>
+<li>命令模式切换到底线命令模式<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">输入英文的冒号（ : ）</span><br></pre></td></tr></table></figure></li>
+<li>底线命令模式切换到命令模式<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">按下键盘左上角的 Esc 键，或者 回车键（Enter）</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <h3 id="命令介绍"><a href="#命令介绍" class="headerlink" title="命令介绍"></a>命令介绍</h3><h4 id="光标移动"><a href="#光标移动" class="headerlink" title="光标移动"></a>光标移动</h4><table>
@@ -313,7 +316,7 @@ Vim is a highly configurable text editor for efficiently creating and changing a
 </tr>
 <tr>
 <td style="text-align:center">【Ctrl】+ 【n】</td>
-<td>在输入模式下，你可以输入一个词的开头，然后按 <ctrl +="" n="">，自动补齐功能就出现了</ctrl></td>
+<td>在输入模式下，你可以输入一个词的开头，然后按 <Ctrl + n>，自动补齐功能就出现了</td>
 </tr>
 <tr>
 <td style="text-align:center">:set nu</td>
@@ -394,7 +397,7 @@ Vim is a highly configurable text editor for efficiently creating and changing a
 </tbody>
 </table>
 <h4 id="其它补充"><a href="#其它补充" class="headerlink" title="其它补充"></a>其它补充</h4><p>区域选择<br><code>&lt;action&gt;a&lt;object&gt; 或 &lt;action&gt;a&lt;object&gt;</code></p>
-<p><span style="color:#333;font-size:13px;">action：命令，如：d（删除）、y（拷贝）、v（可视模式选择）</span><br><span style="color:#333;font-size:13px;">object：操作对象，如：w（一个单词）、s（一个句子）、p（一个段落）、某个特定的字符（,).）</span><br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">假如你有一个字符串(<span class="keyword">map</span>(+)(<span class="string">"foo"</span>)) 而光标在第一个 <span class="keyword">o</span> 的位置</span><br><span class="line"></span><br><span class="line">光标会选择 foo</span><br><span class="line"><span class="keyword">vi</span><span class="comment">"</span></span><br><span class="line"></span><br><span class="line">光标会选择 <span class="string">"foo"</span></span><br><span class="line">va<span class="comment">"</span></span><br><span class="line"></span><br><span class="line">光标会选择 <span class="string">"foo"</span></span><br><span class="line"><span class="keyword">vi</span>)</span><br><span class="line"></span><br><span class="line">光标会选择 (<span class="string">"foo"</span>)</span><br><span class="line">va)</span><br><span class="line"></span><br><span class="line">光标会选择 <span class="keyword">map</span>(+)(<span class="string">"foo"</span>)</span><br><span class="line">v2i)</span><br><span class="line"></span><br><span class="line">光标会选择 (<span class="keyword">map</span>(+)(<span class="string">"foo"</span>))</span><br><span class="line">v2a)</span><br></pre></td></tr></table></figure></p>
+<p><span style="color:#333;font-size:13px;">action：命令，如：d（删除）、y（拷贝）、v（可视模式选择）</span><br><span style="color:#333;font-size:13px;">object：操作对象，如：w（一个单词）、s（一个句子）、p（一个段落）、某个特定的字符（,).）</span><br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">假如你有一个字符串(<span class="keyword">map</span>(+)(<span class="string">&quot;foo&quot;</span>)) 而光标在第一个 <span class="keyword">o</span> 的位置</span><br><span class="line"></span><br><span class="line">光标会选择 foo</span><br><span class="line"><span class="keyword">vi</span><span class="comment">&quot;</span></span><br><span class="line"></span><br><span class="line">光标会选择 <span class="string">&quot;foo&quot;</span></span><br><span class="line">va<span class="comment">&quot;</span></span><br><span class="line"></span><br><span class="line">光标会选择 <span class="string">&quot;foo&quot;</span></span><br><span class="line"><span class="keyword">vi</span>)</span><br><span class="line"></span><br><span class="line">光标会选择 (<span class="string">&quot;foo&quot;</span>)</span><br><span class="line">va)</span><br><span class="line"></span><br><span class="line">光标会选择 <span class="keyword">map</span>(+)(<span class="string">&quot;foo&quot;</span>)</span><br><span class="line">v2i)</span><br><span class="line"></span><br><span class="line">光标会选择 (<span class="keyword">map</span>(+)(<span class="string">&quot;foo&quot;</span>))</span><br><span class="line">v2a)</span><br></pre></td></tr></table></figure></p>
 <p>块操作<br><code>【Ctrl】+ 【v】</code><br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0</span>&lt;Ctrl + v&gt;jI---<span class="symbol">&lt;ESC&gt;</span></span><br><span class="line"></span><br><span class="line">移动到行头</span><br><span class="line"><span class="number">0</span></span><br><span class="line"></span><br><span class="line">开始块操作</span><br><span class="line">&lt;Ctrl + v&gt;</span><br><span class="line"></span><br><span class="line">向下移动</span><br><span class="line"><span class="keyword">j</span></span><br><span class="line"></span><br><span class="line">插入 --- 使每一行生效</span><br><span class="line">I---<span class="symbol">&lt;ESC&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>分屏<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">上下分屏（当前正在编辑的文件）</span><br><span class="line">:<span class="keyword">sp</span></span><br><span class="line"></span><br><span class="line">上下分屏（可以打开另一个文件进行分屏编辑）</span><br><span class="line">:<span class="keyword">sp</span> fileName</span><br><span class="line"></span><br><span class="line">左右分屏（当前正在编辑的文件）</span><br><span class="line">:vsp</span><br><span class="line"></span><br><span class="line">左右分屏（可以打开另一个文件进行分屏编辑）</span><br><span class="line">:vsp fileName</span><br><span class="line"></span><br><span class="line">上下分屏编辑 file1 与 file2</span><br><span class="line"><span class="keyword">vi</span> -<span class="keyword">on</span> file1 file2</span><br><span class="line"></span><br><span class="line">左右分屏编辑 file1 与 file2</span><br><span class="line"><span class="keyword">vi</span> -On file1 file2</span><br><span class="line"></span><br><span class="line">添加一个新文件，并分屏编辑</span><br><span class="line">:<span class="keyword">new</span> fileName</span><br><span class="line"></span><br><span class="line">切换不同的分屏</span><br><span class="line">&lt;Ctrl + <span class="keyword">w</span> + <span class="keyword">w</span>&gt;</span><br><span class="line"></span><br><span class="line">关闭其它所有分屏，只保留当前分屏</span><br><span class="line">:<span class="keyword">only</span></span><br></pre></td></tr></table></figure></p>
 
@@ -434,7 +437,7 @@ Vim is a highly configurable text editor for efficiently creating and changing a
     </div>
     
         <div class='side'>
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#简单介绍"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初步体验"><span class="toc-number">2.</span> <span class="toc-text">初步体验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#工作模式"><span class="toc-number">3.</span> <span class="toc-text">工作模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#命令模式-Command-Mode"><span class="toc-number">3.1.</span> <span class="toc-text">命令模式 Command Mode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#输入模式-Insert-Mode"><span class="toc-number">3.2.</span> <span class="toc-text">输入模式 Insert Mode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#底线命令模式-Last-Line-Mode"><span class="toc-number">3.3.</span> <span class="toc-text">底线命令模式 Last Line Mode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模式切换"><span class="toc-number">3.4.</span> <span class="toc-text">模式切换</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命令介绍"><span class="toc-number">4.</span> <span class="toc-text">命令介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#光标移动"><span class="toc-number">4.1.</span> <span class="toc-text">光标移动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#文档编辑"><span class="toc-number">4.2.</span> <span class="toc-text">文档编辑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其它补充"><span class="toc-number">4.3.</span> <span class="toc-text">其它补充</span></a></li></ol></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E6%AD%A5%E4%BD%93%E9%AA%8C"><span class="toc-number">2.</span> <span class="toc-text">初步体验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text">工作模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F-Command-Mode"><span class="toc-number">3.1.</span> <span class="toc-text">命令模式 Command Mode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E6%A8%A1%E5%BC%8F-Insert-Mode"><span class="toc-number">3.2.</span> <span class="toc-text">输入模式 Insert Mode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%95%E7%BA%BF%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F-Last-Line-Mode"><span class="toc-number">3.3.</span> <span class="toc-text">底线命令模式 Last Line Mode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F%E5%88%87%E6%8D%A2"><span class="toc-number">3.4.</span> <span class="toc-text">模式切换</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E4%BB%8B%E7%BB%8D"><span class="toc-number">4.</span> <span class="toc-text">命令介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%89%E6%A0%87%E7%A7%BB%E5%8A%A8"><span class="toc-number">4.1.</span> <span class="toc-text">光标移动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E6%A1%A3%E7%BC%96%E8%BE%91"><span class="toc-number">4.2.</span> <span class="toc-text">文档编辑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E5%AE%83%E8%A1%A5%E5%85%85"><span class="toc-number">4.3.</span> <span class="toc-text">其它补充</span></a></li></ol></li></ol>
         </div>
     
 </div>
@@ -443,17 +446,25 @@ Vim is a highly configurable text editor for efficiently creating and changing a
     </div>
 </div>
 </body>
+
 <script src="/js/Valine.min.js"></script>
+
+
 <script src="/js/jquery.min.js"></script>
 <script src="/js/plugin.js"></script>
 <script src="/js/clipboard.min.js"></script>
 <script src="/js/clipboard-use.js"></script>
 <script src="/js/diaspora.js"></script>
 <script src="/js/valine-use.js"></script>
+
+
 <link rel="stylesheet" href="/photoswipe/photoswipe.css">
 <link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
 <script src="/photoswipe/photoswipe.min.js"></script>
 <script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
 
 <!-- Root element of PhotoSwipe. Must have class pswp. -->
 <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
